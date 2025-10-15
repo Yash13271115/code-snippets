@@ -18,5 +18,5 @@ while ($true) {
     git push origin main
 
     # Wait 10 minutes before repeating
-    Start-Sleep -Seconds 600
+    Start-Sleep -Seconds 180
 }
