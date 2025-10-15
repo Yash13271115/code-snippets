@@ -7,5 +7,5 @@ while ($true) {
     $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     git commit -m "Auto backup at $time" --allow-empty
     git push origin main
-    Start-Sleep -Seconds 120  # runs every 2 minutes
+    Start-Sleep -Seconds 600  # runs every 10 minutes
 }
