@@ -1,48 +1,56 @@
 {
+    /* ===== Git Pull Snippet ===== */
     "Git Pull": {
         "prefix": "git-pull",
         "body": [
-            "# Navigate to your repository",
+            "# Navigate to your repository folder",
             "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
             "",
-            "# Pull latest changes from the remote branch",
-            "git pull origin ${2:main}"
+            "# Pull the latest changes from the remote branch",
+            "# 'origin' is the remote name, '${2:main}' is the branch name",
+            "git pull origin ${2:main}  # Pull updates from remote"
         ],
         "description": "Pull latest changes from a Git repository"
     },
+
+    /* ===== Git Push Snippet ===== */
     "Git Push": {
         "prefix": "git-push",
         "body": [
-            "# Navigate to your repository",
+            "# Navigate to your repository folder",
             "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
             "",
-            "# Stage all changes",
-            "git add .",
+            "# Stage all modified/new files for commit",
+            "git add .  # Stage changes",
             "",
-            "# Commit with a message",
+            "# Commit changes with a custom message",
+            "# --allow-empty allows committing even if no changes are present",
             "git commit -m \"${2:Commit message}\" --allow-empty",
             "",
-            "# Push changes to the remote branch",
-            "git push origin ${3:main}"
+            "# Push committed changes to the remote branch",
+            "git push origin ${3:main}  # Push updates to remote"
         ],
         "description": "Stage, commit, and push changes to a Git repository"
     },
+
+    /* ===== Git Pull and Push Snippet ===== */
     "Git Pull and Push": {
         "prefix": "git-sync",
         "body": [
-            "# Navigate to your repository",
+            "# Navigate to your repository folder",
             "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
             "",
-            "# Pull latest changes",
+            "# Pull latest changes from the remote branch",
+            "# This ensures your local repo is up-to-date before committing",
             "git pull origin ${2:main}",
             "",
-            "# Stage all changes",
+            "# Stage all modified/new files for commit",
             "git add .",
             "",
-            "# Commit with a message",
+            "# Commit changes with a custom message",
             "git commit -m \"${3:Commit message}\" --allow-empty",
             "",
-            "# Push changes to remote",
+            "# Push the committed changes to the remote branch",
             "git push origin ${4:main}"
         ],
         "description": "Pull latest changes, then commit and push local changes"
