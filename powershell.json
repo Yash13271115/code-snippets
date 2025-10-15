@@ -12,11 +12,26 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-	"Laravel Migration": {
-        "prefix": "make-migration",
-        "body": [
-            "php artisan make:migration create_${1:table}_table"
-        ],
-        "description": "Create a Laravel migration for a specified table"
-    }
+	// "Laravel Migration": {
+    //     "prefix": "make-migration",
+    //     "body": [
+    //         "php artisan make:migration create_${1:table}_table"
+    //     ],
+    //     "description": "Create a Laravel migration for a specified table"
+		// },
+	"PowerShell Function": {
+			"prefix": "func",
+			"body": [
+				"function ${1:FunctionName} {",
+				"\tparam(",
+				"\t\t[Parameter(Mandatory = $true)]",
+				"\t\t[string]$${2:ParamName}",
+				"\t)",
+				"",
+				"\t${3:Write-Output \"Hello from function!\"}",
+				"}",
+				"$0"
+			],
+			"description": "A basic PowerShell function template"
+	}
 }
