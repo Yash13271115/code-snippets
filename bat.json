@@ -11,5 +11,12 @@
 	// 		"$2"
 	// 	],
 	// 	"description": "Log output to console"
-	// }
+	// },
+	"Laravel Migration": {
+        "prefix": "make-migration",
+        "body": [
+            "php artisan make:migration create_${1:table}_table"
+        ],
+        "description": "Create a Laravel migration for a specified table"
+    }
 }
