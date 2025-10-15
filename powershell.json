@@ -1,37 +1,50 @@
 {
-	// Place your snippets for powershell here. Each snippet is defined under a snippet name and has a prefix, body and 
-	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
-	// same ids are connected.
-	// Example:
-	// "Print to console": {
-	// 	"prefix": "log",
-	// 	"body": [
-	// 		"console.log('$1');",
-	// 		"$2"
-	// 	],
-	// 	"description": "Log output to console"
-	// }
-	// "Laravel Migration": {
-    //     "prefix": "make-migration",
-    //     "body": [
-    //         "php artisan make:migration create_${1:table}_table"
-    //     ],
-    //     "description": "Create a Laravel migration for a specified table"
-		// },
-	"PowerShell Function": {
-			"prefix": "func",
-			"body": [
-				"function ${1:FunctionName} {",
-				"\tparam(",
-				"\t\t[Parameter(Mandatory = $true)]",
-				"\t\t[string]$${2:ParamName}",
-				"\t)",
-				"",
-				"\t${3:Write-Output \"Hello from function!\"}",
-				"}",
-				"$0"
-			],
-			"description": "A basic PowerShell function template"
-	}
+    "Git Pull": {
+        "prefix": "git-pull",
+        "body": [
+            "# Navigate to your repository",
+            "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
+            "",
+            "# Pull latest changes from the remote branch",
+            "git pull origin ${2:main}"
+        ],
+        "description": "Pull latest changes from a Git repository"
+    },
+    "Git Push": {
+        "prefix": "git-push",
+        "body": [
+            "# Navigate to your repository",
+            "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
+            "",
+            "# Stage all changes",
+            "git add .",
+            "",
+            "# Commit with a message",
+            "git commit -m \"${2:Commit message}\" --allow-empty",
+            "",
+            "# Push changes to the remote branch",
+            "git push origin ${3:main}"
+        ],
+        "description": "Stage, commit, and push changes to a Git repository"
+    },
+    "Git Pull and Push": {
+        "prefix": "git-sync",
+        "body": [
+            "# Navigate to your repository",
+            "Set-Location \"${1:C:\\Path\\To\\Repo}\"",
+            "",
+            "# Pull latest changes",
+            "git pull origin ${2:main}",
+            "",
+            "# Stage all changes",
+            "git add .",
+            "",
+            "# Commit with a message",
+            "git commit -m \"${3:Commit message}\" --allow-empty",
+            "",
+            "# Push changes to remote",
+            "git push origin ${4:main}"
+        ],
+        "description": "Pull latest changes, then commit and push local changes"
+    }
 }
