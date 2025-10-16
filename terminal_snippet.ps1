@@ -16,7 +16,10 @@ function gts { git status } # git status
 function gta { git add . } # git add all
 function gtc { param([string]$msg) git commit -m $msg }
 function gtp { git push } # git push
-function gtpl { git pull } # git pull
+function gtpl { 
+    param([string]$branch = "origin main") 
+    git pull $branch 
+}
 function gtautosync {
     param(
         [string]$Path = (Get-Location).Path
