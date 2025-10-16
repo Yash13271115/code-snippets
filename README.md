@@ -1,4 +1,7 @@
+
+<p>
 For Creating New Configure Snippets:
+</p>
 "Preferences: Configure Snippets"
 
 Create config for terminal snippits on specific location
