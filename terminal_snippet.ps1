@@ -11,14 +11,13 @@ Set-Alias tinker "php artisan tinker"
 # ----------------------------
 # Git Functions (multi-word commands must be functions)
 # ----------------------------
-function g { git @args } # generic git wrapper
-function gs { git status } # git status
-function ga { git add . } # git add all
-function gc { param([string]$msg) git commit -m $msg } # git commit with message
-function gcm { param([string]$msg) git commit -m $msg } # git commit with message
-function gp { git push } # git push
-function gpl { git pull } # git pull
-function gautosync {
+function gt { git @args } # generic git wrapper
+function gts { git status } # git status
+function gta { git add . } # git add all
+function gtc { param([string]$msg) git commit -m $msg }
+function gtp { git push } # git push
+function gtpl { git pull } # git pull
+function gtautosync {
     param(
         [string]$Path = (Get-Location).Path
     )
