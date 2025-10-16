@@ -54,5 +54,3 @@ function cdsnipcode {
 # Optional: Add more custom functions or aliases below
 # Example: PHP version check
 function phpver { php -v }
-# Example: Clear terminal
-function cls { Clear-Host }
