@@ -1,6 +1,6 @@
 
 <h1>For Creating New Configure Snippets:</h1>
-<p>"Preferences: Configure Snippets"</p>
+<p>"Preferences: Configure Snippets" (ctrl+shift+p)</p>
 
 Create config for terminal snippits on specific location
 1. C:\Users\ADMIN\AppData\Roaming\Code\User\snippets\terminal_snippet.ps1.ps1
