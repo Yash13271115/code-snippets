@@ -1,13 +1,19 @@
 # ============================
 # Custom PowerShell Profile
 # ============================
+
+# ----------------------------
+# NPM Commands
+# ----------------------------
+function npmdev { npm run dev }
+function npmbuild { npm run build }
+function npmtest { npm test }
 # ----------------------------
 # Laravel Commands
 # ----------------------------
-Set-Alias art "php artisan"
-Set-Alias serve "php artisan serve"
-Set-Alias mig "php artisan migrate"
-Set-Alias tinker "php artisan tinker"
+function lrart { php artisan @args }
+function lrserve { php artisan serve @args }
+function lrservep { param([int]$port = 8080)  php artisan serve --port=$port }
 # ----------------------------
 # Git Functions (multi-word commands must be functions)
 # ----------------------------
