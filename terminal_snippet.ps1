@@ -49,7 +49,6 @@ function gautosync {
 # ----------------------------
 function np { param([string]$file) notepad $file }                     # open file in Notepad
 function ll { Get-ChildItem -Force }                                   # list all files including hidden
-function cdproj { Set-Location "C:\xampp\htdocs\doctor_detox_crm" }    # go to project folder
 function cdsnipwind { Set-Location "C:\Users\ADMIN\AppData\Roaming\Windsurf\User\snippets" } 
 function cdsnipcode { Set-Location "C:\Users\ADMIN\AppData\Roaming\Code\User\snippets" } 
 
