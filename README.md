@@ -14,4 +14,4 @@ Create config for terminal snippits on specific location
 . "C:\Users\$env:USERNAME\AppData\Roaming\Windsurf\User\snippets\terminal_snippet.ps1"
 7. Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 "if not access given"
-8. $PROFILE -> "Save terminal command save"
+8. (. $PROFILE)-> "Save terminal command save"
