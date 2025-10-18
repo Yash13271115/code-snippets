@@ -3,11 +3,18 @@
 # ============================
 
 # ----------------------------
+# Composer Commands
+# ----------------------------
+function compi { composer install }
+function compup { composer update }
+
+# ----------------------------
 # NPM Commands
 # ----------------------------
 function npmdev { npm run dev }
 function npmbuild { npm run build }
 function npmtest { npm test }
+function npmi { npm install }
 # ----------------------------
 # schadcn Commands
 # ----------------------------
