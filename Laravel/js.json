@@ -1,0 +1,12 @@
+{
+    "File": "javascript.json",
+    "JS forEach": {
+        "prefix": "jsforeach",
+        "body": [
+            "${1:array}.forEach((${2:item}, ${3:index}) => {",
+            "    $0",
+            "});"
+        ],
+        "description": "JavaScript forEach loop over an array"
+    }
+}
