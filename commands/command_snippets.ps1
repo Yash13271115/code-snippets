@@ -2,6 +2,10 @@
 # Custom PowerShell Profile
 # ============================
 
+function snipmerge {
+    python ./merge/merge_snippets.py
+}
+
 # ----------------------------
 # Composer Commands
 # ----------------------------
