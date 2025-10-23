@@ -10,8 +10,8 @@ Create config for terminal snippits on specific location
 "New-Item -Path $PROFILE -ItemType File -Force"
 4. notepad $PROFILE
 5. terminal_snippet.ps1 "Create config"
-6. . "C:\Users\$env:USERNAME\AppData\Roaming\Code\User\snippets\terminal_snippet.ps1" -> "Add the line on top"
-. "C:\Users\$env:USERNAME\AppData\Roaming\Windsurf\User\snippets\terminal_snippet.ps1"
+6. . "C:\Users\$env:USERNAME\AppData\Roaming\Code\User\snippets\commands\command_snippets.ps1" -> "Add the line on top"
+. "C:\Users\$env:USERNAME\AppData\Roaming\Windsurf\User\snippets\commands\command_snippets.ps1"
 7. Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 "if not access given"
 8. (. $PROFILE)-> "Save terminal command save"
