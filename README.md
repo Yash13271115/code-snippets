@@ -15,3 +15,5 @@ Create config for terminal snippits on specific location
 7. Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 "if not access given"
 8. (. $PROFILE)-> "Save terminal command save"
+
+for merging the snippets : snipmerge

@@ -9,26 +9,23 @@ function snipmerge {
 # ----------------------------
 # Composer Commands
 # ----------------------------
-function compi { composer install }
-function compup { composer update }
+. "$PSScriptRoot\schadcn.ps1"
 
 # ----------------------------
 # NPM Commands
 # ----------------------------
-function npmdev { npm run dev }
-function npmbuild { npm run build }
-function npmtest { npm test }
-function npmi { npm install }
+. "$PSScriptRoot\npm.ps1"
+
 # ----------------------------
 # schadcn Commands
 # ----------------------------
 . "$PSScriptRoot\schadcn.ps1"
+
 # ----------------------------
 # Laravel Commands
 # ----------------------------
-function lrart { php artisan @args }
-function lrserve { php artisan serve @args }
-function lrservep { param([int]$port = 8080)  php artisan serve --port=$port }
+. "$PSScriptRoot\artisan.ps1"
+
 # ----------------------------
 # Git Functions (multi-word commands must be functions)
 # ----------------------------
