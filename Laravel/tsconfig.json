@@ -1,4 +1,6 @@
 {
+    "File": "json.json",
+    // Snippet name: Laravel tsconfig.json setup for TypeScript in a Laravel project
     "Laravel tsconfig.json": {
         "prefix": "LrTsconfig",
         "body": [

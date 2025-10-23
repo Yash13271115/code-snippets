@@ -1,11 +1,11 @@
 {
-	"Blade foreach": {
-		"prefix": "bforeach",
-		"body": [
-		  "@foreach($${1:items} as $${2:item})",
-		  "    $0",
-		  "@endforeach"
-		],
-		"description": "Laravel Blade foreach loop"
-	}
+    "Blade foreach": {
+        "prefix": "bforeach",
+        "body": [
+            "@foreach($${1:items} as $${2:item})",
+            "    $0",
+            "@endforeach"
+        ],
+        "description": "Laravel Blade foreach loop"
+    }
 }
