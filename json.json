@@ -1,6 +1,6 @@
 {
     "Laravel tsconfig.json": {
-        "prefix": "LrTsconfig",
+        "prefix": "lrtsconfig",
         "body": [
             "{",
             "    \"compilerOptions\": {",
@@ -111,15 +111,15 @@
             "        /* Completeness */",
             "        // \"skipDefaultLibCheck\": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */",
             "        \"skipLibCheck\": true /* Skip type checking all .d.ts files. */,",
+            "        \"ignoreDeprecations\": \"6.0\",",
             "        \"baseUrl\": \".\",",
             "        \"paths\": {",
             "            \"@/*\": [\"./resources/js/*\"]",
             "        },",
             "        \"jsx\": \"react-jsx\"",
             "    },",
-            "    \"include\": [\"resources/js/**/*.ts\", \"resources/js/**/*.d.ts\", \"resources/js/**/*.tsx\"]",
-            "}",
-            ""
+            "    \"include\": [\"resources/js/**/*.js\", \"resources/js/**/*.d.js\", \"resources/js/**/*.jsx\",\"resources/js/**/*.ts\", \"resources/js/**/*.d.ts\", \"resources/js/**/*.tsx\"]",
+            "}"
         ],
         "description": "Snippet to quickly generate a Laravel-friendly tsconfig.json for TypeScript + React setup"
     }
