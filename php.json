@@ -11,10 +11,18 @@
     "Middleware Append ": {
         "prefix": "mwappendInertia",
         "body": [
+            "// use App\\Http\\Middleware\\HandleInertiaRequests;",
             "\\$middleware->web(append: [",
             "    HandleInertiaRequests::class,",
             "]);"
         ],
         "description": "Append custom middleware to web group in bootstrap/app.php"
+    },
+    "Inertia route shorthand": {
+        "prefix": "lrinertiaroute",
+        "body": [
+            "Route::inertia('/$1', '$2');"
+        ],
+        "description": "Inertia route shorthand"
     }
 }

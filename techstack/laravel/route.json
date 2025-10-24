@@ -1,0 +1,10 @@
+{
+    "File": "php.json",
+    "Inertia route shorthand": {
+        "prefix": "lrinertiaroute",
+        "body": [
+            "Route::inertia('\/$1', '$2');"
+        ],
+        "description": "Inertia route shorthand"
+    }
+}

@@ -25,9 +25,14 @@ function crfile {
     New-Item -Path (Join-Path $PWD $name) -ItemType File
 }
 
-function crpathfile {
+function crfolder {
+    param([string]$name = "NewFile.txt")
+    New-Item -Path (Join-Path $PWD $name) -ItemType Directory
+}
+
+function crpathFolder {
     param([string]$path)
-    New-Item -Path (Join-Path $PWD $path) -ItemType File
+    New-Item -Path (Join-Path $PWD $path) -ItemType Directory
 }
 # ----------------------------
 # Composer Commands

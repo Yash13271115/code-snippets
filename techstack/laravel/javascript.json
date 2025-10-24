@@ -17,5 +17,16 @@
             "})"
         ],
         "description": "Boilerplate for Inertia.js with React using Vite and JSX pages"
+    },
+    "Import React Viteconfig": {
+        "prefix": "lrintimpreact",
+        "body": [
+            "import react from '@vitejs/plugin-react';",
+            "",
+            "export default {",
+            "  plugins: [react()],",
+            "};"
+        ],
+        "description": "Boilerplate for Inertia.js with React using Vite and JSX pages"
     }
 }

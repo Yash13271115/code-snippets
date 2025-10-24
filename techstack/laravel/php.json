@@ -12,6 +12,7 @@
     "Middleware Append ": {
         "prefix": "mwappendInertia",
         "body": [
+        "// use App\\Http\\Middleware\\HandleInertiaRequests;",
         "\\$middleware->web(append: [",
         "    HandleInertiaRequests::class,",
         "]);"
