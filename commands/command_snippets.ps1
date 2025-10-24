@@ -19,10 +19,20 @@ function cdsnipcode {
 function snipmerge {
     python ./merge/merge_snippets.py
 }
+
+function crfile {
+    param([string]$name = "NewFile.txt")
+    New-Item -Path (Join-Path $PWD $name) -ItemType File
+}
+
+function crpathfile {
+    param([string]$path)
+    New-Item -Path (Join-Path $PWD $path) -ItemType File
+}
 # ----------------------------
 # Composer Commands
 # ----------------------------
-. "$PSScriptRoot\schadcn.ps1"
+. "$PSScriptRoot\composer.ps1"
 
 # ----------------------------
 # NPM Commands

@@ -1,0 +1,21 @@
+{
+    "File": "php.json",
+    "Middleware Append": {
+        "prefix": "mwappend",
+        "body": [
+        "        $middleware->web(append: [",
+        "            ${1:YourMiddleware}::class,",
+        "        ]);"
+        ],
+        "description": "Append custom middleware to web group in bootstrap/app.php"
+    },
+    "Middleware Append ": {
+        "prefix": "mwappendInertia",
+        "body": [
+        "        $middleware->web(append: [",
+        "            HandleInertiaRequests::class,",
+        "        ]);"
+        ],
+        "description": "Append custom middleware to web group in bootstrap/app.php"
+    }
+}
