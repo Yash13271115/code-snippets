@@ -46,12 +46,34 @@ for folder_path in folders:
                     # Create a copy excluding the "File" key
                     snippet_data = {k: v for k, v in data.items() if k != "File"}
                     
-                    # Write the snippet JSON to the target file in root
+                    # Target path in root
                     target_path = os.path.join('.', target_name)
-                    with open(target_path, 'w', encoding='utf-8') as f:
-                        json.dump(snippet_data, f, indent=4)
                     
-                    print(f"Successfully copied snippet JSON data to root '{target_name}'.")
+                    # Load existing data if file exists
+                    existing_data = {}
+                    if os.path.exists(target_path):
+                        try:
+                            with open(target_path, 'r', encoding='utf-8') as f:
+                                existing_data = json.load(f)
+                            print(f"Loaded existing data from '{target_name}'.")
+                        except json.JSONDecodeError as e:
+                            print(f"Error loading existing JSON in '{target_name}': {e}. Starting fresh.")
+                            existing_data = {}
+                    
+                    # Check for duplicates
+                    duplicates = set(snippet_data.keys()) & set(existing_data.keys())
+                    if duplicates:
+                        print(f"Error: Duplicate snippet keys found in '{target_name}': {', '.join(duplicates)}. Skipping merge for this file.")
+                        continue
+                    
+                    # Merge the data
+                    merged_data = {**existing_data, **snippet_data}
+                    
+                    # Write the merged JSON to the target file in root
+                    with open(target_path, 'w', encoding='utf-8') as f:
+                        json.dump(merged_data, f, indent=4)
+                    
+                    print(f"Successfully merged snippet JSON data into root '{target_name}'.")
                     
                 except json.JSONDecodeError as e:
                     print(f"Error parsing JSON in '{file_name}': {e}")
