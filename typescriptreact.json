@@ -53,5 +53,26 @@
             ""
         ],
         "description": "Boilerplate for Inertia.js Layout with React using Vite and TSX pages"
+    },
+    "Multi Layout config": {
+        "prefix": "inrmultiLayout",
+        "body": [
+            "createInertiaApp({",
+            "  resolve: name => {",
+            "    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
+            "    const isAdmin = name.toLowerCase().startsWith('admin');",
+            "    let page = pages[`./Pages/${name}.tsx`]",
+            "",
+            "    if (!isAdmin) {",
+            "      page.default.layout = page.default.layout || ((page: JSX.Element) => <FrontLayout children={page} />)",
+            "      return page",
+            "    }",
+            "",
+            "    page.default.layout = page.default.layout || ((page: JSX.Element) => <AdminLayout children={page} />)",
+            "    return page",
+            "  },",
+            "})"
+        ],
+        "description": "Boilerplate for Multi Layout TSX page app.tsx"
     }
 }
