@@ -18,6 +18,13 @@
         ],
         "description": "Append custom middleware to web group in bootstrap/app.php"
     },
+    "Laravel route include other folder": {
+        "prefix": "lrroutetofolder",
+        "body": [
+            "include_once(base_path().'/routes/${1:Admin}/routes.php');"
+        ],
+        "description": "Include frontend routes in the application"
+    },
     "Inertia route shorthand": {
         "prefix": "lrinertiaroute",
         "body": [

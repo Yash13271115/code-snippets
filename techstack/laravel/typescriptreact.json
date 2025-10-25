@@ -1,0 +1,58 @@
+{
+	"File": "typescriptreact.json",
+	"Inertia React App Setup": {
+		"prefix": "lrinrtsxinit",
+		"body": [
+			"import './bootstrap';",
+			"import { createInertiaApp } from '@inertiajs/react'",
+			"import { createRoot } from 'react-dom/client'",
+			"",
+			"// TypeScript: Extend ImportMeta to include 'glob'",
+			"declare global {",
+			"  interface ImportMeta {",
+			"    glob: (pattern: string, options?: { eager?: boolean }) => Record<string, any>;",
+			"  }",
+			"}",
+			"",
+			"createInertiaApp({",
+			"  resolve: name => {",
+			"    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
+			"    return pages[`./Pages/\\${name}.tsx`]",
+			"  },",
+			"  setup({ el, App, props }) {",
+			"    createRoot(el).render(<App {...props} />)",
+			"  },",
+			"})"
+		],
+		"description": "Boilerplate for Inertia.js with React using Vite and TSX pages"
+	},
+	"Inertia React TSX Layout": {
+		"prefix": "lrinrLayout",
+		"body": [
+			"import { ReactNode } from \"react\";",
+			"import { Head } from \"@inertiajs/react\";",
+			"",
+			"export default function ${1:Layout}({ children }: { children: ReactNode }) {",
+			"  return (",
+			"    <div>",
+			"      <Head title=\"My App\" />",
+			"      <header>",
+			"        <nav>",
+			"          <ul>",
+			"            <li><a href=\"/\">Home</a></li>",
+			"            <li><a href=\"/about\">About</a></li>",
+			"          </ul>",
+			"        </nav>",
+			"      </header>",
+			"      <main>{children}</main>",
+			"      <footer>",
+			"        <p>&copy; 2023 My App</p>",
+			"      </footer>",
+			"    </div>",
+			"  );",
+			"}",
+			""
+		],
+		"description": "Boilerplate for Inertia.js Layout with React using Vite and TSX pages"
+	}
+}
