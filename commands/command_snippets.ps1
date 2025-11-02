@@ -39,6 +39,12 @@ function crpathFolder {
     param([string]$path)
     New-Item -Path (Join-Path $PWD $path) -ItemType Directory
 }
+
+# ----------------------------
+# Django Commands
+# ----------------------------
+. "$PSScriptRoot\django.ps1"
+
 # ----------------------------
 # Composer Commands
 # ----------------------------
