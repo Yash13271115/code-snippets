@@ -1,0 +1,12 @@
+{
+    "djStaticDir": {
+        "prefix": "djStaticDir",
+        "body": [
+            "STATICFILES_DIRS = [",
+            "    BASE_DIR / 'static',",
+            "    '/var/www/static/',",
+            "]"
+        ],
+        "description": "Django static files directory configuration"
+    }
+}
