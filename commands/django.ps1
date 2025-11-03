@@ -1,17 +1,27 @@
 # ----------------------------
 # Django Commands
 # ----------------------------
-function djangocreate { 
-    param([string]$name = "myapp")
+function djCreate { 
+    param([string]$dir = "project", [string]$name = "myapp")
 
-    mkdir $name
-    Set-Location $name
+    mkdir $dir
+    Set-Location $dir
 
-    python -m django startproject mysite .
+    python -m django startproject $name .
 }
 
-function djangorun { 
+function djServe { 
     param([int]$port = 8000)
 
     py manage.py runserver 127.0.0.1:$port
+}
+
+function djMigrate { 
+    param([int]$port = 8000)
+
+    py manage.py migrate
+}
+
+function djCrSpUser { 
+    python manage.py createsuperuser
 }
