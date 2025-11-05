@@ -1,5 +1,5 @@
 {
-  "File": "html.json",
+  "File": "django-html.json",
   "djTemplateExtends": {
     "prefix": "djTemplateExtends",
     "body": [
