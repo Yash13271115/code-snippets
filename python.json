@@ -8,5 +8,15 @@
             "]"
         ],
         "description": "Django static files directory configuration"
+    },
+    "djRenderView": {
+        "prefix": "djRenderView",
+        "body": [
+            "# views.py",
+            "from django.shortcuts import render",
+            "def ${1:functionName}(request):",
+            "    return render(request, '${2:templateName}.html')"
+        ],
+        "description": "Django render view"
     }
 }

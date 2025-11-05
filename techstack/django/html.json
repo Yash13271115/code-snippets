@@ -1,0 +1,22 @@
+{
+  "File": "html.json",
+  "djTemplateExtends": {
+    "prefix": "djTemplateExtends",
+    "body": [
+      "{% extends '${1:base}.html' %}",
+      "",
+      "{% block ${2:content} %}",
+      "    ${3:<!-- Your content here -->}",
+      "{% endblock %}"
+    ],
+    "description": "Django template that extends a base template"
+  },
+
+  "djTemplateInclude": {
+    "prefix": "djTemplateInclude",
+    "body": [
+      "{% include '${1:partials/header}.html' %}"
+    ],
+    "description": "Django template include statement"
+  }
+}

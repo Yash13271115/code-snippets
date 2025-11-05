@@ -1,0 +1,37 @@
+{
+    "djTemplateExtends": {
+        "prefix": "djTemplateExtends",
+        "body": [
+            "{% extends '${1:base}.html' %}",
+            "",
+            "{% block ${2:content} %}",
+            "    ${3:<!-- Your content here -->}",
+            "{% endblock %}"
+        ],
+        "description": "Django template that extends a base template"
+    },
+    "djTemplateInclude": {
+        "prefix": "djTemplateInclude",
+        "body": [
+            "{% include '${1:partials/header}.html' %}"
+        ],
+        "description": "Django template include statement"
+    },
+    "HTML Boilerplate": {
+        "prefix": "html5",
+        "body": [
+            "<!DOCTYPE html>",
+            "<html lang=\"en\">",
+            "<head>",
+            "    <meta charset=\"UTF-8\">",
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+            "    <title>${1:Document}</title>",
+            "</head>",
+            "<body>",
+            "    ${2:<!-- Your content here -->}",
+            "</body>",
+            "</html>"
+        ],
+        "description": "Basic HTML5 boilerplate"
+    }
+}
