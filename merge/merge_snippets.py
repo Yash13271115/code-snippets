@@ -7,86 +7,100 @@ import os
 import json
 from collections import defaultdict
 
-# Set the path to the techstack folder
 techstack_path = './techstack'
 
-# Dynamically find all subfolders in techstack
+# Locate subfolders
 if os.path.exists(techstack_path):
-    subfolders = [os.path.join(techstack_path, d) for d in os.listdir(techstack_path) if os.path.isdir(os.path.join(techstack_path, d))]
+    subfolders = [
+        os.path.join(techstack_path, d)
+        for d in os.listdir(techstack_path)
+        if os.path.isdir(os.path.join(techstack_path, d))
+    ]
 else:
     subfolders = []
-    print(f"The '{techstack_path}' folder does not exist at the specified path.")
+    print(f"ERROR: '{techstack_path}' folder does not exist.")
 
-# Dictionary to hold merged data for each target
 merged_targets = defaultdict(dict)
-
-# Check each subfolder and process JSON files
 total_json_files = 0
+errors_found = False
+
+def detect_duplicates_in_same_file(data, file_path):
+    keys = list(data.keys())
+    seen = set()
+    duplicates = []
+
+    for k in keys:
+        if k == "File":
+            continue
+        if k in seen:
+            duplicates.append(k)
+        seen.add(k)
+
+    if duplicates:
+        print(f"ERROR: Duplicate snippet keys inside file '{file_path}': {', '.join(duplicates)}")
+        return True
+    return False
+
+
 for folder_path in subfolders:
-    folder_name = os.path.basename(folder_path)
-    # Find all .json files recursively
-    json_files = []
     for root, dirs, files in os.walk(folder_path):
         for file in files:
-            if file.endswith('.json'):
-                json_files.append(os.path.join(root, file))
-    
-    # Display the results for this folder
-    if json_files:
-        print(f"Found {len(json_files)} JSON files in '{folder_name}' ('{folder_path}'):")
-        total_json_files += len(json_files)
-        for file_path in json_files:
-            file_name = os.path.basename(file_path)
-            print(f"\nProcessing '{file_name}' from '{folder_name}':")
+            if not file.endswith('.json'):
+                continue
+
+            total_json_files += 1
+            file_path = os.path.join(root, file)
+
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     lines = f.readlines()
-                
-                # Filter out comment lines (lines that start with // after lstrip)
-                cleaned_lines = [line for line in lines if not line.lstrip().startswith('//')]
-                json_str = ''.join(cleaned_lines)
-                data = json.loads(json_str)
-                
-                # Extract target file name from "File" key
+
+                # remove comment lines
+                cleaned_lines = [
+                    line for line in lines if not line.lstrip().startswith('//')
+                ]
+                data = json.loads(''.join(cleaned_lines))
+
+                # detect duplicates *inside same file only*
+                if detect_duplicates_in_same_file(data, file_path):
+                    errors_found = True
+                    continue
+
+                # validate & normalize "File"
                 target_name = data.get("File")
                 if not target_name:
-                    print("No 'File' key found in the JSON. Skipping.")
+                    errors_found = True
+                    print(f"ERROR: Missing 'File' key in {file_path}")
                     continue
-                print(f"Extracted target file name from 'File' key: {target_name}")
-                
-                # Create a copy excluding the "File" key
+
+                target_name = target_name.strip()
+
+                # remove File key
                 snippet_data = {k: v for k, v in data.items() if k != "File"}
-                
-                # Check for duplicates in the merged data for this target
-                duplicates = set(snippet_data.keys()) & set(merged_targets[target_name].keys())
-                if duplicates:
-                    print(f"Error: Duplicate snippet keys found in '{target_name}': {', '.join(duplicates)}. Skipping this snippet.")
-                    continue
-                
-                # Merge the snippet data into the target's dict
+
+                # merge without cross-file duplicate checking
                 merged_targets[target_name].update(snippet_data)
-                print(f"Successfully added snippet JSON data to merged '{target_name}'.")
-                
+
             except json.JSONDecodeError as e:
-                print(f"Error parsing JSON in '{file_name}': {e}")
+                errors_found = True
+                print(f"ERROR: JSON decode error in {file_path}: {e}")
+
             except Exception as e:
-                print(f"Unexpected error processing '{file_name}': {e}")
-    else:
-        print(f"No JSON files found in '{folder_name}'.")
+                errors_found = True
+                print(f"ERROR: Unexpected error in {file_path}: {e}")
 
-# Write the merged data to target files in root
-if merged_targets:
-    print("\nWriting merged data to target files:")
-    for target_name, merged_data in merged_targets.items():
-        target_path = os.path.join('.', target_name)
-        try:
-            with open(target_path, 'w', encoding='utf-8') as f:
-                json.dump(merged_data, f, indent=4)
-            print(f"Successfully wrote merged JSON data to root '{target_name}'.")
-        except Exception as e:
-            print(f"Unexpected error writing '{target_name}': {e}")
-else:
-    print("No valid snippets to merge.")
+# Write merged output files
+for target_name, merged_data in merged_targets.items():
+    target_path = os.path.join('.', target_name)
+    try:
+        with open(target_path, 'w', encoding='utf-8') as f:
+            json.dump(merged_data, f, indent=4)
+    except Exception as e:
+        errors_found = True
+        print(f"ERROR: Failed to write {target_path}: {e}")
 
-if total_json_files == 0:
-    print("No JSON files found in any of the subfolders in 'techstack'.")
+# Final success message
+if not errors_found and total_json_files > 0:
+    print("SUCCESS: All snippet files processed and merged successfully.")
+elif total_json_files == 0:
+    print("ERROR: No JSON snippet files found in techstack.")

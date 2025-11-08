@@ -1,20 +1,114 @@
 {
-  "File": "html.json",
-  "HTML Boilerplate": {
-    "prefix": "html5",
+  "File": "python.json",
+  "djModelForm": {
+    "prefix": "djMForm",
     "body": [
-      "<!DOCTYPE html>",
-      "<html lang=\"en\">",
-      "<head>",
-      "    <meta charset=\"UTF-8\">",
-      "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-      "    <title>${1:Document}</title>",
-      "</head>",
-      "<body>",
-      "    ${2:<!-- Your content here -->}",
-      "</body>",
-      "</html>"
+      "from django import forms",
+      "from ${1:app}.models import ${2:ModelName}",
+      "",
+      "class ${2:ModelName}Form(forms.ModelForm):",
+      "    class Meta:",
+      "        model = ${2:ModelName}",
+      "        fields = ['${3:field1}', '${4:field2}']"
     ],
-    "description": "Basic HTML5 boilerplate"
+    "description": "Django ModelForm"
+  },
+  "djFormWidget": {
+    "prefix": "djFormWidget",
+    "body": [
+      "from django import forms",
+      "",
+      "class ${1:MyForm}(forms.Form):",
+      "    ${2:email} = forms.EmailField(",
+      "        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '${3:Enter email}'}),",
+      "    )"
+    ],
+    "description": "Django Form field with widget"
+  },
+  "djModelFormWidget": {
+    "prefix": "djMFormWidget",
+    "body": [
+      "from django import forms",
+      "from ${1:app}.models import ${2:ModelName}",
+      "",
+      "class ${2:ModelName}Form(forms.ModelForm):",
+      "    class Meta:",
+      "        model = ${2:ModelName}",
+      "        fields = ['${3:field1}', '${4:field2}']",
+      "        widgets = {",
+      "            '${3:field1}': forms.TextInput(attrs={'class': 'form-control'}),",
+      "            '${4:field2}': forms.TextInput(attrs={'class': 'form-control'}),",
+      "        }"
+    ],
+    "description": "Django ModelForm with widgets"
+  },
+  "djCleanField": {
+    "prefix": "djCleanField",
+    "body": [
+      "def clean_${1:field}(self):",
+      "    value = self.cleaned_data.get('${1:field}')",
+      "    if not value:",
+      "        raise forms.ValidationError('${2:This field is required}')",
+      "    return value"
+    ],
+    "description": "Field-level validation method"
+  },
+  "djClean": {
+    "prefix": "djClean",
+    "body": [
+      "def clean(self):",
+      "    cleaned_data = super().clean()",
+      "    ${1:field1} = cleaned_data.get('${1:field1}')",
+      "    ${2:field2} = cleaned_data.get('${2:field2}')",
+      "",
+      "    if ${1:field1} == ${2:field2}:",
+      "        raise forms.ValidationError('${3:Fields cannot match}')",
+      "    return cleaned_data"
+    ],
+    "description": "Form-level clean method"
+  },
+  "djChoiceField": {
+    "prefix": "djChoice",
+    "body": [
+      "${1:gender} = forms.ChoiceField(",
+      "    choices=[('M', 'Male'), ('F', 'Female')],",
+      "    widget=forms.Select(attrs={'class': 'form-control'})",
+      ")"
+    ],
+    "description": "Django ChoiceField"
+  },
+  "djFileForm": {
+    "prefix": "djFile",
+    "body": [
+      "from django import forms",
+      "",
+      "class ${1:UploadForm}(forms.Form):",
+      "    file = forms.FileField()"
+    ],
+    "description": "File upload form"
+  },
+  "djModelFormSave": {
+    "prefix": "djMFormSave",
+    "body": [
+      "def save(self, commit=True):",
+      "    instance = super().save(commit=False)",
+      "    ${1:# custom logic}",
+      "    if commit:",
+      "        instance.save()",
+      "    return instance"
+    ],
+    "description": "Override ModelForm save"
+  },
+  "djUserForm": {
+    "prefix": "djUserForm",
+    "body": [
+      "from django import forms",
+      "",
+      "class UserForm(forms.Form):",
+      "    name = forms.CharField(max_length=100, label=\"Name\", required=True)",
+      "    email = forms.EmailField(label=\"Email\", required=True)",
+      "    password = forms.CharField(widget=forms.PasswordInput(), required=True)"
+    ],
+    "description": "Simple Django UserForm without CSS classes"
   }
 }

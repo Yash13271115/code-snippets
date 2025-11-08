@@ -9,7 +9,7 @@
         ],
         "description": "Append custom middleware to web group in bootstrap/app.php"
     },
-    "Middleware Append ": {
+    "Middleware Append Inertia": {
         "prefix": "mwappendInertia",
         "body": [
             "// use App\\Http\\Middleware\\HandleInertiaRequests;",

@@ -11,12 +11,61 @@
     ],
     "description": "Django template that extends a base template"
   },
-
   "djTemplateInclude": {
     "prefix": "djTemplateInclude",
-    "body": [
-      "{% include '${1:partials/header}.html' %}"
-    ],
+    "body": ["{% include '${1:partials/header}.html' %}"],
     "description": "Django template include statement"
+  },
+
+  "djFor": {
+    "prefix": "djFor",
+    "body": [
+      "{% for ${1:item} in ${2:list} %}",
+      "    ${3:<!-- loop content -->}",
+      "{% endfor %}"
+    ],
+    "description": "Django template for loop"
+  },
+  "djIf": {
+    "prefix": "djIf",
+    "body": [
+      "{% if ${1:condition} %}",
+      "    ${2:<!-- content -->}",
+      "{% endif %}"
+    ],
+    "description": "Django template if condition"
+  },
+  "djUrl": {
+    "prefix": "djUrl",
+    "body": ["{% url '${1:route_name}' ${2:args} %}"],
+    "description": "Django template URL tag"
+  },
+  "djHrefUrl": {
+    "prefix": "djHrefUrl",
+    "body": [
+      "<a href=\"{% url '${1:route_name}' ${2:args} %}\">${3:Link Text}</a>"
+    ],
+    "description": "Anchor tag with Django URL"
+  },
+  "djForm": {
+    "prefix": "djForm",
+    "body": [
+      "from django import forms",
+      "",
+      "class ${1:MyForm}(forms.Form):",
+      "    ${2:name} = forms.${3:CharField}(max_length=255)"
+    ],
+    "description": "Basic Django Form"
+  },
+  "djFormTemplate": {
+    "prefix": "djFormTemplate",
+    "body": [
+      "<form method=\"post\">",
+      "    {% csrf_token %}",
+      "    {{ ${3:form}.as_p }}",
+      "    <input type=\"submit\" value=\"Submit\">",
+      "</form>"
+    ],
+    "description": "Django template with a form, CSRF token, and submit button"
   }
 }
