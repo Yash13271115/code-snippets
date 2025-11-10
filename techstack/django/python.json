@@ -149,5 +149,16 @@
       "    list_filter = ('${2:field1}', '${3:field2}')"
     ],
     "description": "Add list_filter to Django admin"
-  }
+  },
+  "djModel": {
+  "prefix": "djModel",
+  "body": [
+    "from django.db import models",
+    "",
+    "class ${1:ModelName}(models.Model):",
+    "    ${2:field} = models.CharField(max_length=100)",
+    ""
+  ],
+  "description": "Create Django model with ${2:field1}"
+}
 }
