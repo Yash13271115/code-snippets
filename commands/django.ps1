@@ -17,9 +17,27 @@ function djServe {
 }
 
 function djMigrate { 
-    param([int]$port = 8000)
-
     py manage.py migrate
+}
+
+function djMakemigrations {
+    param([string]$app = "")
+    py manage.py makemigrations $app
+}
+
+function djStartApp {
+    param([string]$app)
+    py manage.py startapp $app
+}
+
+function djMigrateApp {
+    param([string]$app)
+
+    py manage.py migrate $app
+}
+
+function djShowMigrations {
+    py manage.py showmigrations
 }
 
 function djCrSpUser { 

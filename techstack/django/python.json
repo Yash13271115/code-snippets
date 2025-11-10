@@ -110,5 +110,44 @@
       "    password = forms.CharField(widget=forms.PasswordInput(), required=True)"
     ],
     "description": "Simple Django UserForm without CSS classes"
+  },
+  "djAdmin": {
+    "prefix": "djAdmin",
+    "body": [
+      "from django.contrib import admin",
+      "from ${1:app}.models import ${2:ModelName}",
+      "",
+      "class ${2:ModelName}Admin(admin.ModelAdmin):",
+      "    list_display = ('${3:field1}', '${4:field2}', '${5:field3}')",
+      "    search_fields = ('${3:field1}', '${4:field2}')",
+      "    list_filter = ('${3:field2}',)",
+      "",
+      "admin.site.register(${2:ModelName}, ${2:ModelName}Admin)"
+    ],
+    "description": "Django ModelAdmin registration with list_display, search_fields, list_filter"
+  },
+  "djAdminList": {
+    "prefix": "djAdminList",
+    "body": [
+      "class ${1:ModelName}Admin(admin.ModelAdmin):",
+      "    list_display = ('${2:field1}', '${3:field2}', '${4:field3}')"
+    ],
+    "description": "Add list_display to Django admin"
+  },
+  "djAdminSearch": {
+    "prefix": "djAdminSearch",
+    "body": [
+      "class ${1:ModelName}Admin(admin.ModelAdmin):",
+      "    search_fields = ('${2:field1}', '${3:field2}')"
+    ],
+    "description": "Add search_fields to Django admin"
+  },
+  "djAdminFilter": {
+    "prefix": "djAdminFilter",
+    "body": [
+      "class ${1:ModelName}Admin(admin.ModelAdmin):",
+      "    list_filter = ('${2:field1}', '${3:field2}')"
+    ],
+    "description": "Add list_filter to Django admin"
   }
 }
