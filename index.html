@@ -24,7 +24,8 @@
     <div class="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full text-center">
       <h2 class="text-xl font-semibold text-red-600 mb-2">Error Loading Data</h2>
       <p class="text-gray-600 mb-4" id="errorMessage">Something went wrong while loading data.</p>
-      <button id="closePopup" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">Close</button>
+      <button id="closePopup"
+        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition">Close</button>
     </div>
   </div>
 
@@ -36,6 +37,13 @@
       </div>
     </div>
   </main>
+
+  <!-- Scroll to Top Button -->
+  <button id="scrollUpBtn"
+    class="hidden fixed bottom-6 right-6 bg-blue-600 text-white w-10 h-10 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-110 focus:outline-none"
+    title="Scroll to top">
+    ↑
+  </button>
 
   <!-- Footer -->
   <footer class="bg-white shadow-inner">

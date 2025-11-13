@@ -1,33 +1,33 @@
-let htmlJson;
+let pythonJson;
 
-fetch('../../html.json')
+fetch('../../python.json')
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error ${response.status}`);
     return response.json();
   })
   .then(data => {
-    htmlJson = data;
-    renderhtmlSnippets(htmlJson);
+    pythonJson = data;
+    renderPythonSnippets(pythonJson);
   })
   .catch(error => {
-    console.error('❌ Error loading html.json:', error);
-    showErrorPopup('Failed to load html.json.');
+    console.error('❌ Error loading python.json:', error);
+    showErrorPopup('Failed to load python.json.');
   });
 
-function renderhtmlSnippets(snippets) {
+function renderPythonSnippets(snippets) {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
   container.innerHTML = '';
 
   if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No html snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No python snippets found.</p>`;
     return;
   }
 
-  // Render all html snippets initially
+  // Render all python snippets initially
   renderSnippets(snippets);
 
-  // Setup filter only for html snippets
+  // Setup filter only for python snippets
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase();
     const filtered = Object.entries(snippets).filter(([key, val]) =>
@@ -44,7 +44,7 @@ function renderSnippets(snippets) {
   container.innerHTML = '';
 
   if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No html snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No python snippets found.</p>`;
     return;
   }
 

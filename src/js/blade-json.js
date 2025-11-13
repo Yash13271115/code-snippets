@@ -56,7 +56,9 @@ function renderSnippets(snippets) {
     card.innerHTML = `
       <div class="flex justify-between items-center px-4 py-2 bg-gray-50 border-b">
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">${title}</h2>
+            <h2 class="text-lg font-semibold text-gray-800">
+                ${title}${snippet.prefix ? `<span class="text-sm font-normal text-gray-500"> (${snippet.prefix})</span>` : ''}
+            </h2>
           <p class="text-sm text-gray-500">${snippet.description || ''}</p>
         </div>
         <button class="copyBtn text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md">Copy</button>

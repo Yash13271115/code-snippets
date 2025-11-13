@@ -6,3 +6,20 @@ function showErrorPopup(message) {
 document.getElementById('closePopup').addEventListener('click', () => {
   document.getElementById('errorPopup').classList.add('hidden');
 });
+
+const scrollUpBtn = document.getElementById('scrollUpBtn');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    scrollUpBtn.classList.remove('hidden');
+  } else {
+    scrollUpBtn.classList.add('hidden');
+  }
+});
+
+scrollUpBtn.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
