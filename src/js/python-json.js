@@ -7,61 +7,90 @@ fetch('../../python.json')
   })
   .then(data => {
     pythonJson = data;
-    renderPythonSnippets(pythonJson);
+    initPythonSnippets(pythonJson);
   })
   .catch(error => {
     console.error('❌ Error loading python.json:', error);
     showErrorPopup('Failed to load python.json.');
   });
 
-function renderPythonSnippets(snippets) {
+const ITEMS_PER_PAGE = 10;
+let currentSnippets = {};
+let currentPage = 1;
+
+function initPythonSnippets(snippets) {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
+  currentSnippets = snippets;
+  currentPage = 1;
   container.innerHTML = '';
 
   if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No python snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No Python snippets found.</p>`;
     return;
   }
 
-  // Render all python snippets initially
-  renderSnippets(snippets);
+  renderSnippets();
 
-  // Setup filter only for python snippets
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    const filtered = Object.entries(snippets).filter(([key, val]) =>
-      key.toLowerCase().includes(query) ||
-      val.prefix.toLowerCase().includes(query) ||
-      (val.description && val.description.toLowerCase().includes(query))
-    );
-    renderSnippets(Object.fromEntries(filtered));
-  });
+  // Setup filter only for Python snippets
+  searchInput.addEventListener('input', handleSearch);
 }
 
-function renderSnippets(snippets) {
+function handleSearch(e) {
+  const query = e.target.value.toLowerCase();
+  const allEntries = Object.entries(pythonJson);
+  const filtered = Object.fromEntries(allEntries.filter(([key, val]) =>
+    key.toLowerCase().includes(query) ||
+    val.prefix.toLowerCase().includes(query) ||
+    (val.description && val.description.toLowerCase().includes(query))
+  ));
+  currentSnippets = filtered;
+  currentPage = 1;
+  renderSnippets();
+}
+
+function renderSnippets() {
   const container = document.getElementById('snippetsContainer');
   container.innerHTML = '';
 
-  if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No python snippets found.</p>`;
+  const entries = Object.entries(currentSnippets);
+  const totalItems = entries.length;
+
+  if (totalItems === 0) {
+    container.innerHTML = `<p class="text-gray-500 italic">No Python snippets found.</p>`;
     return;
   }
 
-  Object.entries(snippets).forEach(([title, snippet]) => {
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const pagedEntries = entries.slice(startIndex, endIndex);
+
+  pagedEntries.forEach(([title, snippet]) => {
     const code = snippet.body.join('\n');
     const card = document.createElement('div');
     card.className = "bg-white shadow-md rounded-lg overflow-hidden border border-gray-200";
+    card.dataset.title = title;
+
+    let prefixHtml = '';
+    let prefixButtonHtml = '';
+    if (snippet.prefix) {
+      prefixHtml = `<span class="text-sm font-normal text-gray-500"> (${snippet.prefix})</span>`;
+      prefixButtonHtml = `<button class="copyPrefixBtn text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-md">Copy Prefix</button>`;
+    }
 
     card.innerHTML = `
       <div class="flex justify-between items-center px-4 py-2 bg-gray-50 border-b">
         <div>
-            <h2 class="text-lg font-semibold text-gray-800">
-                ${title}${snippet.prefix ? `<span class="text-sm font-normal text-gray-500"> (${snippet.prefix})</span>` : ''}
-            </h2>
+          <h2 class="text-lg font-semibold text-gray-800">
+              ${title}${prefixHtml}
+          </h2>
           <p class="text-sm text-gray-500">${snippet.description || ''}</p>
         </div>
-        <button class="copyBtn text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md">Copy</button>
+        <div class="flex space-x-2">
+          ${prefixButtonHtml}
+          <button class="copyBtn text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md">Copy</button>
+        </div>
       </div>
       <pre class="bg-gray-900 text-green-300 p-4 text-sm overflow-x-auto"><code>${escapeHTML(code)}</code></pre>
     `;
@@ -69,17 +98,74 @@ function renderSnippets(snippets) {
     container.appendChild(card);
   });
 
+  // Pagination controls
+  if (totalPages > 1) {
+    const pagination = document.createElement('div');
+    pagination.className = 'flex justify-center items-center mt-6 space-x-2';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = 'Previous';
+    prevBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderSnippets();
+      }
+    });
+
+    const pageInfo = document.createElement('span');
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    pageInfo.className = 'text-gray-600 mx-4';
+
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'Next';
+    nextBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderSnippets();
+      }
+    });
+
+    pagination.appendChild(prevBtn);
+    pagination.appendChild(pageInfo);
+    pagination.appendChild(nextBtn);
+    container.appendChild(pagination);
+  }
+
   // Copy button logic
-  document.querySelectorAll('.copyBtn').forEach((btn, i) => {
+  document.querySelectorAll('.copyBtn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const snippetText = Object.values(snippets)[i].body.join('\n');
-      navigator.clipboard.writeText(snippetText);
-      btn.textContent = 'Copied!';
-      btn.classList.replace('bg-blue-600', 'bg-green-600');
-      setTimeout(() => {
-        btn.textContent = 'Copy';
-        btn.classList.replace('bg-green-600', 'bg-blue-600');
-      }, 1500);
+      const title = btn.closest('[data-title]').dataset.title;
+      const snippetText = currentSnippets[title].body.join('\n');
+      navigator.clipboard.writeText(snippetText).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.replace('bg-blue-600', 'bg-green-600');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.replace('bg-green-600', 'bg-blue-600');
+        }, 1500);
+      });
+    });
+  });
+
+  // Copy prefix button logic
+  document.querySelectorAll('.copyPrefixBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const title = btn.closest('[data-title]').dataset.title;
+      const prefix = currentSnippets[title].prefix;
+      if (prefix) {
+        navigator.clipboard.writeText(prefix).then(() => {
+          btn.textContent = 'Copied!';
+          btn.classList.replace('bg-green-600', 'bg-blue-600');
+          setTimeout(() => {
+            btn.textContent = 'Copy Prefix';
+            btn.classList.replace('bg-blue-600', 'bg-green-600');
+          }, 1500);
+        });
+      }
     });
   });
 }
