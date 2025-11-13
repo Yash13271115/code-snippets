@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snippet Viewer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- Popup container -->
+  <div id="errorPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div class="bg-white rounded-xl shadow-xl p-6 max-w-sm w-full text-center">
+      <h2 class="text-xl font-semibold text-red-600 mb-2">Error Loading Data</h2>
+      <p class="text-gray-600 mb-4" id="errorMessage">Something went wrong while loading data.</p>
+      <button id="closePopup" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Close</button>
+    </div>
+  </div>
+
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 text-center">Snippet Library</h1>
+
+    <!-- Search -->
+    <input id="searchInput" type="text" placeholder="Search snippets..."
+      class="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+
+    <!-- Container -->
+    <div id="snippetsContainer" class="space-y-6"></div>
+  </div>
+
+  <script src="src/js/app.js "></script>
+  <script src="src/js/blade-json.js"></script>
+  <script src="src/js/html-json.js"></script>
+</body>
+</html>
