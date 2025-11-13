@@ -1,37 +1,42 @@
 let bladeJson;
 
-fetch('./blade.json')
+fetch('../../blade.json')
   .then(response => {
     if (!response.ok) throw new Error(`HTTP error ${response.status}`);
     return response.json();
   })
   .then(data => {
     bladeJson = data;
-    console.log('✅ blade.json loaded');
-    checkIfAllLoaded();
+    renderBladeSnippets(bladeJson);
   })
   .catch(error => {
     console.error('❌ Error loading blade.json:', error);
     showErrorPopup('Failed to load blade.json.');
   });
 
+function renderBladeSnippets(snippets) {
+  const container = document.getElementById('snippetsContainer');
+  const searchInput = document.getElementById('searchInput');
+  container.innerHTML = '';
 
-function checkIfAllLoaded() {
-  if (htmlJson && bladeJson) {
-    const allSnippets = { ...htmlJson, ...bladeJson };
-    renderSnippets(allSnippets);
-
-    // Setup filter
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = Object.entries(allSnippets).filter(([key, val]) =>
-        key.toLowerCase().includes(query) ||
-        val.prefix.toLowerCase().includes(query) ||
-        (val.description && val.description.toLowerCase().includes(query))
-      );
-      renderSnippets(Object.fromEntries(filtered));
-    });
+  if (!snippets || Object.keys(snippets).length === 0) {
+    container.innerHTML = `<p class="text-gray-500 italic">No Blade snippets found.</p>`;
+    return;
   }
+
+  // Render all Blade snippets initially
+  renderSnippets(snippets);
+
+  // Setup filter only for Blade snippets
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = Object.entries(snippets).filter(([key, val]) =>
+      key.toLowerCase().includes(query) ||
+      val.prefix.toLowerCase().includes(query) ||
+      (val.description && val.description.toLowerCase().includes(query))
+    );
+    renderSnippets(Object.fromEntries(filtered));
+  });
 }
 
 function renderSnippets(snippets) {
@@ -39,13 +44,12 @@ function renderSnippets(snippets) {
   container.innerHTML = '';
 
   if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No Blade snippets found.</p>`;
     return;
   }
 
   Object.entries(snippets).forEach(([title, snippet]) => {
     const code = snippet.body.join('\n');
-
     const card = document.createElement('div');
     card.className = "bg-white shadow-md rounded-lg overflow-hidden border border-gray-200";
 
@@ -78,7 +82,6 @@ function renderSnippets(snippets) {
   });
 }
 
-// Escape HTML characters for safe display
 function escapeHTML(str) {
   return str
     .replace(/&/g, '&amp;')
