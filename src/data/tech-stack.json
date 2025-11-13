@@ -13,5 +13,10 @@
     "name": "Python",
     "icon": "https://img.icons8.com/?size=100&id=13441&format=png&color=000000",
     "route": "./src/pages/python.html"
+  },
+  {
+    "name": "PowerShell",
+    "icon": "https://img.icons8.com/?size=100&id=59500&format=png&color=000000",
+    "route": "./src/pages/powershell.html"
   }
 ]
