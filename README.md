@@ -1,4 +1,3 @@
-
 <h1>For Creating New Configure Snippets:</h1>
 <p>"Preferences: Configure Snippets" (ctrl+shift+p)</p>
 
