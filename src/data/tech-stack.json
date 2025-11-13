@@ -2,21 +2,21 @@
   {
     "name": "HTML",
     "icon": "https://img.icons8.com/?size=100&id=20909&format=png&color=000000",
-    "route": "/src/pages/html.html"
+    "route": "./src/pages/html.html"
   },
   {
     "name": "Blade",
     "icon": "https://img.icons8.com/?size=100&id=lRjcvhvtR81o&format=png&color=000000",
-    "route": "/src/pages/blade.html"
+    "route": "./src/pages/blade.html"
   },
   {
     "name": "CSS",
     "icon": "https://img.icons8.com/?size=100&id=21278&format=png&color=000000",
-    "route": "/src/pages/css.html"
+    "route": "./src/pages/css.html"
   },
   {
     "name": "JavaScript",
     "icon": "https://img.icons8.com/?size=100&id=108784&format=png&color=000000",
-    "route": "/src/pages/javascript.html"
+    "route": "./src/pages/javascript.html"
   }
 ]
