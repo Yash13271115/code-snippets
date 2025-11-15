@@ -28,5 +28,10 @@
     "name": "Tailwind",
     "icon": "./src/media/icons/svg/tailwind.svg",
     "route": "./src/pages/html.html"
+  },
+  {
+    "name": "Git",
+    "icon": "./src/media/icons/svg/git.svg",
+    "route": "./src/pages/python.html"
   }
 ]

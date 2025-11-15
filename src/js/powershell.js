@@ -6,6 +6,7 @@ let powershellSnippets = {};
 const ITEMS_PER_PAGE = 10;
 let currentPage = 1;
 let currentPageTitle = '';
+let subFilter = null;
 
 fetch('../../commands/command_snippets.ps1')
   .then(response => {
@@ -120,6 +121,25 @@ function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
     return;
   }
 
+  // ---- APPLY URL SUBFILTER HERE ----
+  const urlParams = new URLSearchParams(window.location.search);
+  subFilter = urlParams.get("sub");
+
+  if (subFilter) {
+    const filterValue = subFilter.toLowerCase();
+
+    const filtered = Object.fromEntries(
+      Object.entries(snippets).filter(([key, val]) =>
+        key.toLowerCase().includes(filterValue) ||
+        (val.prefix && val.prefix.toLowerCase().includes(filterValue))
+      )
+    );
+
+    powershellSnippets = filtered;
+  } else {
+    powershellSnippets = snippets;
+  }
+
   renderSnippets();
 
   // Search
@@ -135,9 +155,23 @@ function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
 
     powershellSnippets = filtered;
     currentPage = 1;
-    renderSnippets();
     renderTitle();
+    renderSnippets();
   });
+}
+
+
+function renderTitle() {
+  const snippetsTitle = document.getElementById('snippetsTitle');
+
+  console.log('Rendering title:', currentPageTitle, 'with subFilter:', subFilter);
+
+  // If subFilter exists and is not empty → show it
+  if (subFilter && subFilter.trim() !== "") {
+    snippetsTitle.innerHTML = `${currentPageTitle} (${subFilter})`;
+  } else {
+    snippetsTitle.innerHTML = `${currentPageTitle}`;
+  }
 }
 
 function renderSnippets() {
@@ -151,17 +185,6 @@ function renderSnippets() {
     container.innerHTML = `<p class="text-gray-500 italic">No PowerShell snippets found.</p>`;
     return;
   }
-
-function renderTitle() {
-  const snippetsTitle = document.getElementById('snippetsTitle');
-
-  // If subFilter exists and is not empty → show it
-  if (subFilter && subFilter.trim() !== "") {
-    snippetsTitle.innerHTML = `${currentPageTitle} (${subFilter})`;
-  } else {
-    snippetsTitle.innerHTML = `${currentPageTitle}`;
-  }
-}
 
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -187,6 +210,8 @@ function renderTitle() {
       </div>
       <pre class="bg-gray-900 text-green-300 p-4 text-sm overflow-x-auto"><code>${escapeHTML(code)}</code></pre>
     `;
+
+    renderSubTechGrid(snippet.prefix);
 
     container.appendChild(card);
   });
@@ -257,6 +282,61 @@ function renderTitle() {
       });
     });
   });
+}
+
+function renderSubTechGrid(prefix) {
+  if (!prefix) return;
+
+  const firstPart = prefix.split('_')[0].toLowerCase();
+  const gridContainer = document.querySelector("#techGrid");
+  if (!gridContainer) return;
+
+  if (subFilter) {
+    gridContainer.innerHTML = ``;
+    return;
+  }
+
+  fetch("../data/tech-stack-subcat.json")
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to load tech-stack.json");
+      return response.json();
+    })
+    .then(data => {
+
+      const match = data.filter(item =>
+        item.name.toLowerCase() == firstPart
+      );
+
+      if (match.length === 0) {
+        gridContainer.innerHTML = ``;
+        return;
+      }
+
+      gridContainer.innerHTML = match
+        .map(item => {
+
+          // Detect if current location contains "code-snippets"
+          const baseUrl = location.href.includes("code-snippets")
+            ? `${location.origin}/code-snippets`
+            : location.origin;
+
+          const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, '')}`;
+          const itemUrl = `${baseUrl}${item.route.replace(/^\.+/, '')}` + `?sub=${item.name.toLowerCase()}`;
+
+          return `
+            <a href="${itemUrl}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
+              <img src="${iconUrl}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
+              <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
+            </a>
+          `;
+        })
+        .join("");
+    })
+    .catch(error => {
+      console.error("❌ Error:", error);
+      gridContainer.innerHTML = `
+        <p class="text-red-500 italic text-center">Failed to load tech stack.</p>`;
+    });
 }
 
 function escapeHTML(str) {
