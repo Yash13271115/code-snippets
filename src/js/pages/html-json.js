@@ -7,7 +7,7 @@ fetch('../../html.json')
   })
   .then(data => {
     snippitJson = data;
-    initSnippets(snippitJson);
+    initSnippets(snippitJson, 'HTML Snippets');
   })
   .catch(error => {
     console.error('❌ Error loading html.json:', error);

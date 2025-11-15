@@ -1,22 +1,43 @@
 const ITEMS_PER_PAGE = 10;
 let currentSnippets = {};
 let currentPage = 1;
+let subFilter = null;
+let currentPageTitle = '';
 
-function initSnippets(snippets) {
+function initSnippets(snippets, pageTitle = 'Snippets') {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
   currentSnippets = snippets;
   currentPage = 1;
   container.innerHTML = '';
 
-  if (!snippets || Object.keys(snippets).length === 0) {
+  // ---- APPLY URL SUBFILTER HERE ----
+  const urlParams = new URLSearchParams(window.location.search);
+  subFilter = urlParams.get("sub");
+
+  if (subFilter) {
+    const filterValue = subFilter.toLowerCase();
+
+    const filtered = Object.fromEntries(
+      Object.entries(currentSnippets).filter(([key, val]) =>
+        val.prefix && val.prefix.toLowerCase().includes(filterValue)
+      )
+    );
+
+    currentSnippets = filtered;
+  }
+  // ----------------------------------
+
+  if (!currentSnippets || Object.keys(currentSnippets).length === 0) {
     container.innerHTML = `<p class="text-gray-500 italic">No HTML snippets found.</p>`;
     return;
   }
 
-  renderSnippets();
+  currentPageTitle = pageTitle;
 
-  // Setup filter only for HTML snippets
+  renderSnippets();
+  renderTitle();
+
   searchInput.addEventListener('input', handleSearch);
 }
 
@@ -37,11 +58,23 @@ function handleSearch(e) {
   renderSnippets();
 }
 
+function renderTitle() {
+  const snippetsTitle = document.getElementById('snippetsTitle');
+
+  // If subFilter exists and is not empty → show it
+  if (subFilter && subFilter.trim() !== "") {
+    snippetsTitle.innerHTML = `${currentPageTitle} (${subFilter})`;
+  } else {
+    snippetsTitle.innerHTML = `${currentPageTitle}`;
+  }
+}
+
 function renderSnippets() {
   const container = document.getElementById('snippetsContainer');
   container.innerHTML = '';
 
   const entries = Object.entries(currentSnippets);
+
   const totalItems = entries.length;
 
   if (totalItems === 0) {
@@ -173,6 +206,11 @@ function renderSubTechGrid(prefix) {
   const firstPart = prefix.split('-')[0].toLowerCase();
   const gridContainer = document.querySelector("#techGrid");
   if (!gridContainer) return;
+
+  if (subFilter) {
+    gridContainer.innerHTML = ``;
+    return;
+  }
 
   fetch("../data/tech-stack-subcat.json")
     .then(response => {

@@ -5,6 +5,7 @@
 let powershellSnippets = {};
 const ITEMS_PER_PAGE = 10;
 let currentPage = 1;
+let currentPageTitle = '';
 
 fetch('../../commands/command_snippets.ps1')
   .then(response => {
@@ -32,7 +33,7 @@ fetch('../../commands/command_snippets.ps1')
     }
 
     powershellSnippets = parsePowerShellFunctions(allText);
-    initPowerShellSnippets(powershellSnippets);
+    initPowerShellSnippets(powershellSnippets, 'PowerShell Snippets');
   })
   .catch(error => {
     console.error('❌ Error loading command_snippets.ps1:', error);
@@ -68,6 +69,14 @@ function parsePowerShellFunctions(psText) {
     const name = match[1].trim();
     const bodyRaw = match[2].trim();
 
+
+    // Extract title/description comments
+    let title = `PowerShell function: ${name}`;
+    const titleMatch = bodyRaw.match(/#\s*title\s+"([^"]+)"/i);
+    if (titleMatch) {
+      title = titleMatch[1].trim();
+    }
+
     // Extract title/description comments
     let description = `PowerShell function: ${name}`;
     const descMatch = bodyRaw.match(/#\s*description\s+"([^"]+)"/i);
@@ -75,17 +84,19 @@ function parsePowerShellFunctions(psText) {
       description = descMatch[1].trim();
     }
 
+
     // Remove lines starting with "# title" or "# description"
     const cleanedBody = bodyRaw
       .split("\n")
       .map(line => line.trim())                    // remove front spaces
-      .filter(line => 
+      .filter(line =>
         !line.toLowerCase().startsWith("# title") &&
         !line.toLowerCase().startsWith("# description")
       );
 
     snippets[name] = {
       prefix: name,
+      title,
       description,
       body: cleanedBody
     };
@@ -98,7 +109,7 @@ function parsePowerShellFunctions(psText) {
 // Init & Render Functions
 // ============================
 
-function initPowerShellSnippets(snippets) {
+function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
   currentPage = 1;
@@ -125,6 +136,7 @@ function initPowerShellSnippets(snippets) {
     powershellSnippets = filtered;
     currentPage = 1;
     renderSnippets();
+    renderTitle();
   });
 }
 
@@ -140,6 +152,17 @@ function renderSnippets() {
     return;
   }
 
+function renderTitle() {
+  const snippetsTitle = document.getElementById('snippetsTitle');
+
+  // If subFilter exists and is not empty → show it
+  if (subFilter && subFilter.trim() !== "") {
+    snippetsTitle.innerHTML = `${currentPageTitle} (${subFilter})`;
+  } else {
+    snippetsTitle.innerHTML = `${currentPageTitle}`;
+  }
+}
+
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -154,7 +177,7 @@ function renderSnippets() {
     card.innerHTML = `
       <div class="flex justify-between items-center px-4 py-2 bg-gray-50 border-b">
         <div>
-          <h2 class="text-lg font-semibold text-gray-800">${title}</h2>
+          <h2 class="text-lg font-semibold text-gray-800">${snippet.title} (${title})</h2>
           <p class="text-sm text-gray-500">${snippet.description}</p>
         </div>
         <div class="flex space-x-2">

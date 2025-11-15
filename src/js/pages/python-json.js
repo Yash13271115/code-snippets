@@ -7,7 +7,7 @@ fetch('../../python.json')
   })
   .then(data => {
     snippitJson = data;
-    initSnippets(snippitJson);
+    initSnippets(snippitJson, 'Python Snippets');
   })
   .catch(error => {
     console.error('❌ Error loading python.json:', error);
