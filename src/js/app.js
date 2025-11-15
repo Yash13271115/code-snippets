@@ -31,3 +31,5 @@ const baseUrl = location.href.includes("code-snippets")
 document.getElementById("favicon").href = `${baseUrl}/src/media/favicon.png`;
 
 const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+
+const defaultIcon = `/src/media/icons/svg/default.svg`;

@@ -349,7 +349,7 @@ async function renderSubTechGrid() {
   gridContainer.innerHTML = [...uniqueParts]
     .map(part => {
       const item = dataMap.get(part); // if exists in JSON
-      const iconPath = item?.icon ? item.icon.replace(/^\.+/, "") : "/assets/icons/default.png";
+      const iconPath = item?.icon ? item.icon.replace(/^\.+/, "") : defaultIcon;
       const iconUrl = `${baseUrl}${iconPath}`;
 
       const itemUrl = window.location + "?" + `sub=${part}`;
