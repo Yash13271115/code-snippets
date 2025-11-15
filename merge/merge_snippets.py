@@ -1,8 +1,3 @@
-# Python script to find JSON snippet files in the 'laravel' and 'nextjs' folders,
-# parse the JSON content which includes a "File" key for the target name (skipping comment lines),
-# copy the parsed JSON data excluding the "File" key to the target file in the root directory
-# Save this as merge_snippets.py and run it with: python merge_snippets.py
-
 import os
 import json
 from collections import defaultdict
@@ -21,6 +16,7 @@ else:
     print(f"ERROR: '{techstack_path}' folder does not exist.")
 
 merged_targets = defaultdict(dict)
+origin_map = defaultdict(dict)   # NEW: track which file provided which snippet key
 total_json_files = 0
 errors_found = False
 
@@ -61,12 +57,12 @@ for folder_path in subfolders:
                 ]
                 data = json.loads(''.join(cleaned_lines))
 
-                # detect duplicates *inside same file only*
+                # (1) detect duplicates inside same file
                 if detect_duplicates_in_same_file(data, file_path):
                     errors_found = True
                     continue
 
-                # validate & normalize "File"
+                # (2) validate & normalize "File"
                 target_name = data.get("File")
                 if not target_name:
                     errors_found = True
@@ -78,8 +74,22 @@ for folder_path in subfolders:
                 # remove File key
                 snippet_data = {k: v for k, v in data.items() if k != "File"}
 
-                # merge without cross-file duplicate checking
-                merged_targets[target_name].update(snippet_data)
+                # (3) detect duplicates across files for same target
+                for key in snippet_data:
+                    if key in merged_targets[target_name]:
+                        original_file = origin_map[target_name].get(key, "Unknown file")
+                        print(f"ERROR: Duplicate snippet key '{key}' found in:")
+                        print(f"   → {original_file}")
+                        print(f"   → {file_path}")
+                        errors_found = True
+                        break
+                else:
+                    # no duplicates → merge
+                    merged_targets[target_name].update(snippet_data)
+
+                    # track origin
+                    for key in snippet_data:
+                        origin_map[target_name][key] = file_path
 
             except json.JSONDecodeError as e:
                 errors_found = True
@@ -90,16 +100,17 @@ for folder_path in subfolders:
                 print(f"ERROR: Unexpected error in {file_path}: {e}")
 
 # Write merged output files
-for target_name, merged_data in merged_targets.items():
-    target_path = os.path.join('.', target_name)
-    try:
-        with open(target_path, 'w', encoding='utf-8') as f:
-            json.dump(merged_data, f, indent=4)
-    except Exception as e:
-        errors_found = True
-        print(f"ERROR: Failed to write {target_path}: {e}")
+if not errors_found:
+    for target_name, merged_data in merged_targets.items():
+        target_path = os.path.join('.', target_name)
+        try:
+            with open(target_path, 'w', encoding='utf-8') as f:
+                json.dump(merged_data, f, indent=4)
+        except Exception as e:
+            errors_found = True
+            print(f"ERROR: Failed to write {target_path}: {e}")
 
-# Final success message
+# Final message
 if not errors_found and total_json_files > 0:
     print("SUCCESS: All snippet files processed and merged successfully.")
 elif total_json_files == 0:
