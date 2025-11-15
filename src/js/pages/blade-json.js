@@ -1,4 +1,4 @@
-let bladeJson;
+let snippitJson;
 
 fetch('../../../blade.json')
   .then(response => {
@@ -6,8 +6,8 @@ fetch('../../../blade.json')
     return response.json();
   })
   .then(data => {
-    bladeJson = data;
-    initSnippets(bladeJson);
+    snippitJson = data;
+    initSnippets(snippitJson);
   })
   .catch(error => {
     console.error('❌ Error loading blade.json:', error);

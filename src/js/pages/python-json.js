@@ -1,4 +1,4 @@
-let pythonJson;
+let snippitJson;
 
 fetch('../../../python.json')
   .then(response => {
@@ -6,8 +6,8 @@ fetch('../../../python.json')
     return response.json();
   })
   .then(data => {
-    pythonJson = data;
-    initSnippets(pythonJson);
+    snippitJson = data;
+    initSnippets(snippitJson);
   })
   .catch(error => {
     console.error('❌ Error loading python.json:', error);
