@@ -194,9 +194,10 @@ function renderSubTechGrid(prefix) {
       gridContainer.innerHTML = match
         .map(item => {
           const iconUrl = `${location.origin}${item.icon.replace(/^\.+/, '')}`;
+          const itemUrl = `${location.origin}${item.route.replace(/^\.+/, '')}`;
 
           return `
-            <a href="${item.route}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
+            <a href="${itemUrl}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
               <img src="${iconUrl}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
               <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
             </a>
