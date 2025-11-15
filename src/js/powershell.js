@@ -42,8 +42,8 @@ fetch('../../commands/command_snippets.ps1')
 // ============================
 // Extract Included Files
 // ============================
+
 function extractIncludedFiles(psText) {
-  // Match `. "$PSScriptRoot\filename.ps1"`
   const regex = /\. "?[$]PSScriptRoot\\([^"]+\.ps1)"?/g;
   const files = [];
   let match;
@@ -57,24 +57,30 @@ function extractIncludedFiles(psText) {
 // ============================
 // Parse PowerShell functions
 // ============================
+
 function parsePowerShellFunctions(psText) {
-  const funcRegex = /function\s+([a-zA-Z0-9_-]+)\s*\{([\s\S]*?)\}/g;
+  // Match: function name { ... }
+  const funcRegex = /function\s+([a-zA-Z0-9_-]+)\s*\{([\s\S]*?)\n\}/g;
   const snippets = {};
   let match;
 
   while ((match = funcRegex.exec(psText)) !== null) {
     const name = match[1].trim();
-    const body = match[2].trim();
+    const bodyRaw = match[2].trim();
 
-    // Extract comment lines above function for description
-    const beforeText = psText.substring(0, match.index);
-    const commentMatch = /#\s*(.+)\n\s*function\s+$/.exec(beforeText.split('\n').slice(-3).join('\n'));
-    const description = commentMatch ? commentMatch[1].trim() : `PowerShell function: ${name}`;
+    // Extract FIRST comment inside the function block
+    let description = `PowerShell function: ${name}`;
+    const descMatch = bodyRaw.match(/#\s*(.+)/);
+    if (descMatch) {
+      description = descMatch[1].trim();
+    }
+
+    const bodyLines = bodyRaw.split('\n').map(line => line.trimEnd());
 
     snippets[name] = {
       prefix: name,
       description,
-      body: body.split('\n').map(line => line.trimEnd())
+      body: bodyLines
     };
   }
 
@@ -84,6 +90,7 @@ function parsePowerShellFunctions(psText) {
 // ============================
 // Init & Render Functions
 // ============================
+
 function initPowerShellSnippets(snippets) {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
@@ -97,7 +104,7 @@ function initPowerShellSnippets(snippets) {
 
   renderSnippets();
 
-  // Search filtering
+  // Search
   searchInput.addEventListener('input', e => {
     const query = e.target.value.toLowerCase();
     const allEntries = Object.entries(snippets);
@@ -107,6 +114,7 @@ function initPowerShellSnippets(snippets) {
         (val.description && val.description.toLowerCase().includes(query))
       )
     );
+
     powershellSnippets = filtered;
     currentPage = 1;
     renderSnippets();

@@ -2,43 +2,73 @@
 # Custom PowerShell Profile
 # ============================
 # This profile script loads various command snippets and defines custom functions for enhanced productivity.
+
+
 # ----------------------------
 # Miscellaneous Functions
 # ----------------------------
-function np { param([string]$file) notepad $file } # open file in Notepad
-function ll { Get-ChildItem -Force } # list all files including hidden
-function cdsnipwind { 
+
+function open_notepad { 
+    # title "Open in Notepad"
+    # description "Open a given file using Notepad."
+    param([string]$file)
+    notepad $file 
+}
+
+function list_files_all { 
+    # title "List Files (All)"
+    # description "List all files including hidden ones in the current directory."
+    Get-ChildItem -Force 
+}
+
+function cd_snip_windsurf { 
+    # title "Go to Windsurf Snippets Folder"
+    # description "Navigate to Windsurf snippet directory."
     $UserPath = "C:\Users\$env:USERNAME\AppData\Roaming\Windsurf\User\snippets"
     Set-Location $UserPath 
 }
-function cdsnipcode { 
+
+function cd_snip_code { 
+    # title "Go to VS Code Snippets Folder"
+    # description "Navigate to VS Code snippet directory."
     $UserPath = "C:\Users\$env:USERNAME\AppData\Roaming\Code\User\snippets"
     Set-Location $UserPath 
 }
 
-function snipmerge {
+function snippet_merge {
+    # title "Merge Snippets"
+    # description "Run the Python script that merges all snippet JSON files."
     python ./merge/merge_snippets.py
 }
 
-function crfile {
+function create_file {
+    # title "Create File"
+    # description "Create a new file in the current directory."
     param([string]$name = "NewFile.txt")
     New-Item -Path (Join-Path $PWD $name) -ItemType File
 }
 
-function crpathFile {
+function create_file_path {
+    # title "Create File at Path"
+    # description "Create a new file using the provided relative path."
     param([string]$path)
     New-Item -Path (Join-Path $PWD $path) -ItemType File
 }
 
-function crfolder {
-    param([string]$name = "NewFile.txt")
+function create_folder {
+    # title "Create Folder"
+    # description "Create a new directory in the current path."
+    param([string]$name = "NewFolder")
     New-Item -Path (Join-Path $PWD $name) -ItemType Directory
 }
 
-function crpathFolder {
+function create_folder_path {
+    # title "Create Folder at Path"
+    # description "Create a new folder using the provided relative path."
     param([string]$path)
     New-Item -Path (Join-Path $PWD $path) -ItemType Directory
 }
+
 
 # ----------------------------
 # Django Commands
@@ -56,7 +86,7 @@ function crpathFolder {
 . "$PSScriptRoot\npm.ps1"
 
 # ----------------------------
-# schadcn Commands
+# Shadcn Commands
 # ----------------------------
 . "$PSScriptRoot\schadcn.ps1"
 

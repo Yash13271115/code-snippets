@@ -1,29 +1,64 @@
 # ----------------------------
-# Git Functions (multi-word commands must be functions)
+# Git Commands
 # ----------------------------
-function gt { git @args } # generic git wrapper
-function gts { git status } # git status
-function gta { git add . } # git add all
-function gtc { param([string]$msg) git commit -m $msg }
-function gtp { git push } # git push
-function gtpl { 
-    param([string]$branch = "origin main") 
+
+function git_status { 
+    # title "Git Status"
+    # description "Show the working directory status."
+    git status 
+}
+
+function git_add_all { 
+    # title "Git Add All"
+    # description "Stage all changed files for commit."
+    git add . 
+}
+
+function git_commit { 
+    # title "Git Commit"
+    # description "Commit staged changes with a message."
+
+    param([string]$msg)
+    git commit -m $msg
+}
+
+function git_push { 
+    # title "Git Push"
+    # description "Push committed changes to the remote repository."
+    git push 
+}
+
+function git_pull { 
+    # title "Git Pull"
+    # description "Pull latest changes from the specified branch."
+
+    param([string]$branch = "origin main")
     git pull $branch 
 }
-function gtautosync {
+
+function git_auto_sync {
+    # title "Git Auto Sync"
+    # description "Automatically pull, add, commit, and push changes with a timestamp message."
+
     param(
         [string]$Path = (Get-Location).Path
     )
-    # Go to the folder
+
+    # Navigate to project directory
     Set-Location $Path
+
     # Pull latest changes
     git pull origin main
-    # Stage all changes
+
+    # Add all files
     git add .
-    # Commit with timestamp (allow empty commits)
+
+    # Commit with timestamp
     $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     git commit -m "Auto backup at $time" --allow-empty
-    # Push changes
+
+    # Push to remote
     git push origin main
+
     Write-Host "Auto synced at $time in $Path"
 }
