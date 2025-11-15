@@ -1,7 +1,7 @@
 {
     "File": "json.json",
     "Laravel tsconfig.json": {
-        "prefix": "lrtsconfig",
+        "prefix": "laravel-tsconfig",
         "body": [
             "{",
             "    \"compilerOptions\": {",

@@ -1,7 +1,8 @@
 {
   "File": "html.json",
+
   "HTML Boilerplate": {
-    "prefix": "html5",
+    "prefix": "html-boilerplate",
     "body": [
       "<!DOCTYPE html>",
       "<html lang=\"en\">",

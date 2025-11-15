@@ -1,6 +1,6 @@
 {
     "Django ModelForm Template": {
-        "prefix": "djModelForm",
+        "prefix": "django-modelform-template",
         "body": [
             "from django import forms",
             "from ${1:app}.models import ${2:ModelName}",
@@ -12,8 +12,8 @@
         ],
         "description": "Create a basic Django ModelForm linked to a model"
     },
-    "Django Form Field with Widget": {
-        "prefix": "djFormFieldWidget",
+    "Django Form Field With Widget": {
+        "prefix": "django-form-field-with-widget",
         "body": [
             "from django import forms",
             "",
@@ -22,10 +22,10 @@
             "        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': '${3:Enter email}'}),",
             "    )"
         ],
-        "description": "Create a Django Form with a styled widget (e.g., EmailInput)"
+        "description": "Create a Django Form with a styled widget such as EmailInput"
     },
-    "Django ModelForm with Custom Widgets": {
-        "prefix": "djModelFormWidget",
+    "Django ModelForm With Custom Widgets": {
+        "prefix": "django-modelform-with-custom-widgets",
         "body": [
             "from django import forms",
             "from ${1:app}.models import ${2:ModelName}",
@@ -39,10 +39,10 @@
             "            '${4:field2}': forms.TextInput(attrs={'class': 'form-control'}),",
             "        }"
         ],
-        "description": "Django ModelForm setup with form-control styled widgets"
+        "description": "Django ModelForm setup with styled widgets"
     },
     "Django Clean Field Validation": {
-        "prefix": "djCleanFieldMethod",
+        "prefix": "django-clean-field-validation",
         "body": [
             "def clean_${1:field}(self):",
             "    value = self.cleaned_data.get('${1:field}')",
@@ -50,10 +50,10 @@
             "        raise forms.ValidationError('${2:This field is required}')",
             "    return value"
         ],
-        "description": "Add a field-level clean_<field>() validation method to a form"
+        "description": "Add a field-level clean_<field> validation method"
     },
     "Django Clean Form Validation": {
-        "prefix": "djCleanFormMethod",
+        "prefix": "django-clean-form-validation",
         "body": [
             "def clean(self):",
             "    cleaned_data = super().clean()",
@@ -64,20 +64,20 @@
             "        raise forms.ValidationError('${3:Fields cannot match}')",
             "    return cleaned_data"
         ],
-        "description": "Add a form-level clean() method for cross-field validation"
+        "description": "Form-level clean() for cross-field validation"
     },
     "Django Choice Field Example": {
-        "prefix": "djChoiceField",
+        "prefix": "django-choice-field-example",
         "body": [
             "${1:gender} = forms.ChoiceField(",
             "    choices=[('M', 'Male'), ('F', 'Female')],",
             "    widget=forms.Select(attrs={'class': 'form-control'})",
             ")"
         ],
-        "description": "Create a ChoiceField with select widget and styled form-control class"
+        "description": "Create a ChoiceField with a select widget"
     },
     "Django File Upload Form": {
-        "prefix": "djFileUploadForm",
+        "prefix": "django-file-upload-form",
         "body": [
             "from django import forms",
             "",
@@ -87,7 +87,7 @@
         "description": "Simple Django form for file uploads"
     },
     "Django ModelForm Save Override": {
-        "prefix": "djModelFormSave",
+        "prefix": "django-modelform-save-override",
         "body": [
             "def save(self, commit=True):",
             "    instance = super().save(commit=False)",
@@ -96,10 +96,10 @@
             "        instance.save()",
             "    return instance"
         ],
-        "description": "Override the save() method in a ModelForm for custom save logic"
+        "description": "Override a ModelForm save() method"
     },
     "Django Basic User Form": {
-        "prefix": "djUserBasicForm",
+        "prefix": "django-basic-user-form",
         "body": [
             "from django import forms",
             "",
@@ -108,10 +108,10 @@
             "    email = forms.EmailField(label=\"Email\", required=True)",
             "    password = forms.CharField(widget=forms.PasswordInput(), required=True)"
         ],
-        "description": "Create a simple Django form with name, email, and password fields"
+        "description": "Create a basic user form with name, email, and password"
     },
     "Django ModelAdmin Registration": {
-        "prefix": "djAdminRegister",
+        "prefix": "django-modeladmin-registration",
         "body": [
             "from django.contrib import admin",
             "from ${1:app}.models import ${2:ModelName}",
@@ -123,40 +123,40 @@
             "",
             "admin.site.register(${2:ModelName}, ${2:ModelName}Admin)"
         ],
-        "description": "Register a Django model in admin with list_display, search_fields, and filters"
+        "description": "Register a Django model with admin class"
     },
     "Django Admin List Display": {
-        "prefix": "djAdminListDisplay",
+        "prefix": "django-admin-list-display",
         "body": [
             "class ${1:ModelName}Admin(admin.ModelAdmin):",
             "    list_display = ('${2:field1}', '${3:field2}', '${4:field3}')"
         ],
-        "description": "Add list_display fields to a Django admin class"
+        "description": "Add list_display fields to Django admin"
     },
     "Django Admin Search Fields": {
-        "prefix": "djAdminSearchFields",
+        "prefix": "django-admin-search-fields",
         "body": [
             "class ${1:ModelName}Admin(admin.ModelAdmin):",
             "    search_fields = ('${2:field1}', '${3:field2}')"
         ],
-        "description": "Add searchable fields to a Django admin class"
+        "description": "Add search_fields to Django admin"
     },
     "Django Admin List Filters": {
-        "prefix": "djAdminListFilter",
+        "prefix": "django-admin-list-filters",
         "body": [
             "class ${1:ModelName}Admin(admin.ModelAdmin):",
             "    list_filter = ('${2:field1}', '${3:field2}')"
         ],
-        "description": "Add filter options in Django admin list view"
+        "description": "Add list filters to Django admin"
     },
     "Django Model Template": {
-        "prefix": "djModelTemplate",
+        "prefix": "django-model-template",
         "body": [
             "from django.db import models",
             "",
             "class ${1:ModelName}(models.Model):",
             "    ${2:field} = models.CharField(max_length=100)"
         ],
-        "description": "Create a simple Django model class with a CharField"
+        "description": "Basic Django model template"
     }
 }

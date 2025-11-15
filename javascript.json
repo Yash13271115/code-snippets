@@ -1,6 +1,6 @@
 {
     "Import React Viteconfig": {
-        "prefix": "lrintimpreact",
+        "prefix": "import-react-vite-config",
         "body": [
             "import react from '@vitejs/plugin-react';",
             "",

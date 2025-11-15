@@ -1,29 +1,32 @@
 {
     "File": "php.json",
-    "Middleware Append": {
-        "prefix": "mwappend",
+
+    "Laravel Middleware Append": {
+        "prefix": "laravel-middleware-append",
         "body": [
             "\\$middleware->web(append: [",
             "    ${1:YourMiddleware}::class,",
             "]);"
         ],
-        "description": "Append custom middleware to web group in bootstrap/app.php"
+        "description": "Append custom middleware to the web group in bootstrap/app.php"
     },
-    "Middleware Append Inertia": {
-        "prefix": "mwappendInertia",
+
+    "Laravel Middleware Append Inertia": {
+        "prefix": "laravel-middleware-append-inertia",
         "body": [
             "// use App\\Http\\Middleware\\HandleInertiaRequests;",
             "\\$middleware->web(append: [",
             "    HandleInertiaRequests::class,",
             "]);"
         ],
-        "description": "Append custom middleware to web group in bootstrap/app.php"
+        "description": "Append Inertia middleware to the web group in bootstrap/app.php"
     },
-    "Laravel route include other folder": {
-        "prefix": "lrroutetofolder",
+
+    "Laravel Route Include Folder": {
+        "prefix": "laravel-route-include-folder",
         "body": [
             "include_once(base_path().'/routes/${1:Admin}/routes.php');"
         ],
-        "description": "Include frontend routes in the application"
+        "description": "Include a route file from another folder"
     }
 }

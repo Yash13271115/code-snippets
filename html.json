@@ -1,6 +1,6 @@
 {
     "HTML Boilerplate": {
-        "prefix": "html5",
+        "prefix": "html-boilerplate",
         "body": [
             "<!DOCTYPE html>",
             "<html lang=\"en\">",
@@ -17,7 +17,7 @@
         "description": "Basic HTML5 boilerplate"
     },
     "HTML Tailwind CSS CDN Template": {
-        "prefix": "tailwind-html-cdn",
+        "prefix": "html-tailwind-css-cdn-template",
         "body": [
             "<!doctype html>",
             "<html lang=\"en\">",
@@ -37,7 +37,7 @@
         "description": "HTML5 boilerplate with TailwindCSS v4 CDN"
     },
     "Tailwind Theme Style Block": {
-        "prefix": "tailwind-theme-style",
+        "prefix": "tailwind-theme-style-block",
         "body": [
             "<style type=\"text/tailwindcss\">",
             "@theme {",

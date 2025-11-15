@@ -1,79 +1,81 @@
 {
-	"File": "typescriptreact.json",
-	"Inertia React App Setup": {
-		"prefix": "lrinrtsxinit",
-		"body": [
-			"import './bootstrap';",
-			"import { createInertiaApp } from '@inertiajs/react'",
-			"import { createRoot } from 'react-dom/client'",
-			"",
-			"// TypeScript: Extend ImportMeta to include 'glob'",
-			"declare global {",
-			"  interface ImportMeta {",
-			"    glob: (pattern: string, options?: { eager?: boolean }) => Record<string, any>;",
-			"  }",
-			"}",
-			"",
-			"createInertiaApp({",
-			"  resolve: name => {",
-			"    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
-			"    return pages[`./Pages/\\${name}.tsx`]",
-			"  },",
-			"  setup({ el, App, props }) {",
-			"    createRoot(el).render(<App {...props} />)",
-			"  },",
-			"})"
-		],
-		"description": "Boilerplate for Inertia.js with React using Vite and TSX pages"
-	},
-	"Inertia React TSX Layout": {
-		"prefix": "lrinrLayout",
-		"body": [
-			"import { ReactNode } from \"react\";",
-			"import { Head } from \"@inertiajs/react\";",
-			"",
-			"export default function ${1:Layout}({ children }: { children: ReactNode }) {",
-			"  return (",
-			"    <div>",
-			"      <Head title=\"My App\" />",
-			"      <header>",
-			"        <nav>",
-			"          <ul>",
-			"            <li><a href=\"/\">Home</a></li>",
-			"            <li><a href=\"/about\">About</a></li>",
-			"          </ul>",
-			"        </nav>",
-			"      </header>",
-			"      <main>{children}</main>",
-			"      <footer>",
-			"        <p>&copy; 2023 My App</p>",
-			"      </footer>",
-			"    </div>",
-			"  );",
-			"}",
-			""
-		],
-		"description": "Boilerplate for Inertia.js Layout with React using Vite and TSX pages"
-	},
-	"Multi Layout config": {
-		"prefix": "inrmultiLayout",
-		"body": [
-			"createInertiaApp({",
-			"  resolve: name => {",
-			"    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
-			"    const isAdmin = name.toLowerCase().startsWith('admin');",
-			"    let page = pages[`./Pages/${name}.tsx`]",
-			"",
-			"    if (!isAdmin) {",
-			"      page.default.layout = page.default.layout || ((page: JSX.Element) => <FrontLayout children={page} />)",
-			"      return page",
-			"    }",
-			"",
-			"    page.default.layout = page.default.layout || ((page: JSX.Element) => <AdminLayout children={page} />)",
-			"    return page",
-			"  },",
-			"})"
-		],
-		"description": "Boilerplate for Multi Layout TSX page app.tsx"
-	}
+    "File": "typescriptreact.json",
+
+    "Laravel Inertia React App Setup (TSX)": {
+        "prefix": "laravel-inertia-react-app-setup-tsx",
+        "body": [
+            "import './bootstrap';",
+            "import { createInertiaApp } from '@inertiajs/react'",
+            "import { createRoot } from 'react-dom/client'",
+            "",
+            "// TypeScript: Extend ImportMeta to include 'glob'",
+            "declare global {",
+            "  interface ImportMeta {",
+            "    glob: (pattern: string, options?: { eager?: boolean }) => Record<string, any>;",
+            "  }",
+            "}",
+            "",
+            "createInertiaApp({",
+            "  resolve: name => {",
+            "    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
+            "    return pages[`./Pages/${name}.tsx`]",
+            "  },",
+            "  setup({ el, App, props }) {",
+            "    createRoot(el).render(<App {...props} />)",
+            "  },",
+            "})"
+        ],
+        "description": "Initialize a Laravel + Inertia.js + React (TSX) application"
+    },
+
+    "Laravel Inertia React Layout (TSX)": {
+        "prefix": "laravel-inertia-react-layout-tsx",
+        "body": [
+            "import { ReactNode } from \"react\";",
+            "import { Head } from \"@inertiajs/react\";",
+            "",
+            "export default function ${1:Layout}({ children }: { children: ReactNode }) {",
+            "  return (",
+            "    <div>",
+            "      <Head title=\"My App\" />",
+            "      <header>",
+            "        <nav>",
+            "          <ul>",
+            "            <li><a href=\"/\">Home</a></li>",
+            "            <li><a href=\"/about\">About</a></li>",
+            "          </ul>",
+            "        </nav>",
+            "      </header>",
+            "      <main>{children}</main>",
+            "      <footer>",
+            "        <p>&copy; 2023 My App</p>",
+            "      </footer>",
+            "    </div>",
+            "  );",
+            "}"
+        ],
+        "description": "Basic layout component for Laravel + Inertia.js + React (TSX)"
+    },
+
+    "Laravel Inertia Multi Layout Config (TSX)": {
+        "prefix": "laravel-inertia-multi-layout-config-tsx",
+        "body": [
+            "createInertiaApp({",
+            "  resolve: name => {",
+            "    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
+            "    const isAdmin = name.toLowerCase().startsWith('admin');",
+            "    let page = pages[`./Pages/${name}.tsx`]",
+            "",
+            "    if (!isAdmin) {",
+            "      page.default.layout = page.default.layout || ((page: JSX.Element) => <FrontLayout children={page} />)",
+            "      return page",
+            "    }",
+            "",
+            "    page.default.layout = page.default.layout || ((page: JSX.Element) => <AdminLayout children={page} />)",
+            "    return page",
+            "  },",
+            "})"
+        ],
+        "description": "Multi-layout configuration for Laravel + Inertia.js + React (TSX)"
+    }
 }

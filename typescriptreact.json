@@ -1,6 +1,6 @@
 {
-    "Inertia React App Setup": {
-        "prefix": "lrinrtsxinit",
+    "Laravel Inertia React App Setup (TSX)": {
+        "prefix": "laravel-inertia-react-app-setup-tsx",
         "body": [
             "import './bootstrap';",
             "import { createInertiaApp } from '@inertiajs/react'",
@@ -16,17 +16,17 @@
             "createInertiaApp({",
             "  resolve: name => {",
             "    const pages = import.meta.glob('./Pages/**/*.tsx', { eager: true })",
-            "    return pages[`./Pages/\\${name}.tsx`]",
+            "    return pages[`./Pages/${name}.tsx`]",
             "  },",
             "  setup({ el, App, props }) {",
             "    createRoot(el).render(<App {...props} />)",
             "  },",
             "})"
         ],
-        "description": "Boilerplate for Inertia.js with React using Vite and TSX pages"
+        "description": "Initialize a Laravel + Inertia.js + React (TSX) application"
     },
-    "Inertia React TSX Layout": {
-        "prefix": "lrinrLayout",
+    "Laravel Inertia React Layout (TSX)": {
+        "prefix": "laravel-inertia-react-layout-tsx",
         "body": [
             "import { ReactNode } from \"react\";",
             "import { Head } from \"@inertiajs/react\";",
@@ -49,13 +49,12 @@
             "      </footer>",
             "    </div>",
             "  );",
-            "}",
-            ""
+            "}"
         ],
-        "description": "Boilerplate for Inertia.js Layout with React using Vite and TSX pages"
+        "description": "Basic layout component for Laravel + Inertia.js + React (TSX)"
     },
-    "Multi Layout config": {
-        "prefix": "inrmultiLayout",
+    "Laravel Inertia Multi Layout Config (TSX)": {
+        "prefix": "laravel-inertia-multi-layout-config-tsx",
         "body": [
             "createInertiaApp({",
             "  resolve: name => {",
@@ -73,6 +72,6 @@
             "  },",
             "})"
         ],
-        "description": "Boilerplate for Multi Layout TSX page app.tsx"
+        "description": "Multi-layout configuration for Laravel + Inertia.js + React (TSX)"
     }
 }

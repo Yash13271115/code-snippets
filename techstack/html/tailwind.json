@@ -1,7 +1,8 @@
 {
     "File": "html.json",
+
     "HTML Tailwind CSS CDN Template": {
-        "prefix": "tailwind-html-cdn",
+        "prefix": "html-tailwind-css-cdn-template",
         "body": [
             "<!doctype html>",
             "<html lang=\"en\">",
@@ -22,7 +23,7 @@
     },
 
     "Tailwind Theme Style Block": {
-        "prefix": "tailwind-theme-style",
+        "prefix": "tailwind-theme-style-block",
         "body": [
             "<style type=\"text/tailwindcss\">",
             "@theme {",

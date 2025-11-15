@@ -1,6 +1,6 @@
 {
     "Blade foreach": {
-        "prefix": "bforeach",
+        "prefix": "blade-foreach",
         "body": [
             "@foreach($${1:items} as $${2:item})",
             "    $0",
@@ -9,7 +9,7 @@
         "description": "Laravel Blade foreach loop"
     },
     "Inertia app.blade.php": {
-        "prefix": "binrinitr",
+        "prefix": "inertia-app-blade",
         "body": [
             "<!DOCTYPE html>",
             "<html>",
@@ -27,14 +27,5 @@
             "</html>"
         ],
         "description": "Inertia.js app.blade.php layout template"
-    },
-    "Blade for loop": {
-        "prefix": "bfor",
-        "body": [
-            "@for($${1:i} = 0; $${1:i} < $${2:count}; $${1:i}++)",
-            "    $0",
-            "@endfor"
-        ],
-        "description": "Laravel Blade for loop"
     }
 }

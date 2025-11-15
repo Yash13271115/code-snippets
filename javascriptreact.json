@@ -1,6 +1,6 @@
 {
     "Inertia React App Setup": {
-        "prefix": "lrinrjsxinit",
+        "prefix": "inertia-react-app-setup",
         "body": [
             "import { createInertiaApp } from '@inertiajs/react'",
             "import { createRoot } from 'react-dom/client'",

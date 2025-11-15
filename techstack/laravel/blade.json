@@ -1,7 +1,8 @@
 {
 	"File": "blade.json",
+
 	"Blade foreach": {
-		"prefix": "bforeach",
+		"prefix": "blade-foreach",
 		"body": [
 			"@foreach($${1:items} as $${2:item})",
 			"    $0",
@@ -9,8 +10,9 @@
 		],
 		"description": "Laravel Blade foreach loop"
 	},
+
 	"Inertia app.blade.php": {
-		"prefix": "binrinitr",
+		"prefix": "inertia-app-blade",
 		"body": [
 			"<!DOCTYPE html>",
 			"<html>",
