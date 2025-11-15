@@ -247,36 +247,35 @@ async function renderSubTechGrid() {
       `<p class="text-red-500 text-center">Failed to load tech stack.</p>`;
     return;
   }
-
+  
   // -----------------------------------------
   // 3. MATCH UNIQUE PARTS WITH DATA
   // -----------------------------------------
-  const matchedItems = data.filter(item =>
-    uniqueParts.has(item.name.toLowerCase())
-  );
-
-  if (matchedItems.length === 0) {
-    gridContainer.innerHTML = "";
-    return;
-  }
+  const dataMap = new Map();
+  data.forEach(item => dataMap.set(item.name.toLowerCase(), item));
 
   // -----------------------------------------
-  // 4. BUILD GRID HTML
+  // 4. BUILD GRID HTML (SHOW ALL ITEMS)
   // -----------------------------------------
   const baseUrl = location.href.includes("code-snippets")
     ? `${location.origin}/code-snippets`
     : location.origin;
 
-  gridContainer.innerHTML = matchedItems
-    .map(item => {
-      const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, "")}`;
-      const itemUrl = window.location +"?" + `sub=${item.name.toLowerCase()}`;
+  gridContainer.innerHTML = [...uniqueParts]
+    .map(part => {
+      const item = dataMap.get(part); // if exists in JSON
+      const iconPath = item?.icon ? item.icon.replace(/^\.+/, "") : "/assets/icons/default.png";
+      const iconUrl = `${baseUrl}${iconPath}`;
+
+      const itemUrl = window.location + "?" + `sub=${part}`;
+
+      const name = item?.name || part;
 
       return `
       <a href="${itemUrl}" 
          class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
-        <img src="${iconUrl}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
-        <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
+        <img src="${iconUrl}" alt="${part} Logo" class="h-14 w-14 mb-4">
+        <h2 class="font-semibold text-sm text-gray-800">${capitalize(name)}</h2>
       </a>`;
     })
     .join("");
