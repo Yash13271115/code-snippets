@@ -83,9 +83,7 @@ function renderSnippets() {
         </div>
       </div>
 
-      <pre class="bg-gray-900 text-green-300 p-4 text-sm overflow-x-auto">
-        <code>${escapeHTML(code)}</code>
-      </pre>
+      <pre class="bg-gray-900 text-green-300 p-4 text-sm overflow-x-auto"><code>${escapeHTML(code)}</code></pre>
     `;
 
     renderSubTechGrid(snippet.prefix);
