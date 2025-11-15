@@ -68,19 +68,26 @@ function parsePowerShellFunctions(psText) {
     const name = match[1].trim();
     const bodyRaw = match[2].trim();
 
-    // Extract FIRST comment inside the function block
+    // Extract title/description comments
     let description = `PowerShell function: ${name}`;
-    const descMatch = bodyRaw.match(/#\s*(.+)/);
+    const descMatch = bodyRaw.match(/#\s*description\s+"([^"]+)"/i);
     if (descMatch) {
       description = descMatch[1].trim();
     }
 
-    const bodyLines = bodyRaw.split('\n').map(line => line.trimEnd());
+    // Remove lines starting with "# title" or "# description"
+    const cleanedBody = bodyRaw
+      .split("\n")
+      .map(line => line.trim())                    // remove front spaces
+      .filter(line => 
+        !line.toLowerCase().startsWith("# title") &&
+        !line.toLowerCase().startsWith("# description")
+      );
 
     snippets[name] = {
       prefix: name,
       description,
-      body: bodyLines
+      body: cleanedBody
     };
   }
 
