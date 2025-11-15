@@ -1,27 +1,27 @@
 [
   {
     "name": "HTML",
-    "icon": "/src/media/icons/svg/html5.svg",
-    "route": "/src/pages/html.html"
+    "icon": "./src/media/icons/svg/html5.svg",
+    "route": "./src/pages/html.html"
   },
   {
     "name": "Blade",
-    "icon": "/src/media/icons/svg/laravel.svg",
-    "route": "/src/pages/blade.html"
+    "icon": "./src/media/icons/svg/laravel.svg",
+    "route": "./src/pages/blade.html"
   },
   {
     "name": "Python",
-    "icon": "/src/media/icons/svg/python.svg",
-    "route": "/src/pages/python.html"
+    "icon": "./src/media/icons/svg/python.svg",
+    "route": "./src/pages/python.html"
   },
   {
     "name": "PowerShell",
-    "icon": "/src/media/icons/svg/powershell.svg",
-    "route": "/src/pages/powershell.html"
+    "icon": "./src/media/icons/svg/powershell.svg",
+    "route": "./src/pages/powershell.html"
   },
     {
     "name": "Django",
-    "icon": "/src/media/icons/svg/django.svg",
-    "route": "/src/pages/python.html"
+    "icon": "./src/media/icons/svg/django.svg",
+    "route": "./src/pages/python.html"
   }
 ]
