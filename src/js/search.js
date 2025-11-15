@@ -193,8 +193,14 @@ function renderSubTechGrid(prefix) {
 
       gridContainer.innerHTML = match
         .map(item => {
-          const iconUrl = `${location.origin}${item.icon.replace(/^\.+/, '')}`;
-          const itemUrl = `${location.origin}${item.route.replace(/^\.+/, '')}`;
+
+          // Detect if current location contains "code-snippets"
+          const baseUrl = location.href.includes("code-snippets")
+            ? `${location.origin}/code-snippets`
+            : location.origin;
+
+          const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, '')}`;
+          const itemUrl = `${baseUrl}${item.route.replace(/^\.+/, '')}`;
 
           return `
             <a href="${itemUrl}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
