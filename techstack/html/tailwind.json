@@ -2,7 +2,7 @@
     "File": "html.json",
 
     "HTML Tailwind CSS CDN Template": {
-        "prefix": "html-tailwind-css-cdn-template",
+        "prefix": "tailwind-cdn-template",
         "body": [
             "<!doctype html>",
             "<html lang=\"en\">",

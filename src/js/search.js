@@ -87,6 +87,7 @@ function renderSnippets() {
     `;
 
     renderSubTechGrid(snippet.prefix);
+
     container.appendChild(card);
   });
 
@@ -198,7 +199,7 @@ function renderSubTechGrid(prefix) {
             : location.origin;
 
           const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, '')}`;
-          const itemUrl = `${baseUrl}${item.route.replace(/^\.+/, '')}`;
+          const itemUrl = `${baseUrl}${item.route.replace(/^\.+/, '')}` + `?sub=${item.name.toLowerCase()}`;
 
           return `
             <a href="${itemUrl}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">

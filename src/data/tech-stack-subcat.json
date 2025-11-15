@@ -19,9 +19,14 @@
     "icon": "./src/media/icons/svg/powershell.svg",
     "route": "./src/pages/powershell.html"
   },
-    {
+  {
     "name": "Django",
     "icon": "./src/media/icons/svg/django.svg",
     "route": "./src/pages/python.html"
+  },
+  {
+    "name": "Tailwind",
+    "icon": "./src/media/icons/svg/tailwind.svg",
+    "route": "./src/pages/html.html"
   }
 ]
