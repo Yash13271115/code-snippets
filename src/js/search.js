@@ -2,6 +2,13 @@ const ITEMS_PER_PAGE = 10;
 let currentSnippets = {};
 let currentPage = 1;
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize snippets if htmlJson is available
+  if (typeof htmlJson !== 'undefined') {
+    initSnippets(htmlJson);
+  }
+});
+
 function initSnippets(snippets) {
   const container = document.getElementById('snippetsContainer');
   const searchInput = document.getElementById('searchInput');
@@ -10,19 +17,19 @@ function initSnippets(snippets) {
   container.innerHTML = '';
 
   if (!snippets || Object.keys(snippets).length === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No HTML snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No snippets found.</p>`;
     return;
   }
 
   renderSnippets();
 
-  // Setup filter only for HTML snippets
+  // Setup filter
   searchInput.addEventListener('input', handleSearch);
 }
 
 function handleSearch(e) {
   const query = e.target.value.toLowerCase();
-  const allEntries = Object.entries(htmlJson);
+  const allEntries = Object.entries(htmlJson || {});
   const filtered = Object.fromEntries(allEntries.filter(([key, val]) =>
     key.toLowerCase().includes(query) ||
     val.prefix.toLowerCase().includes(query) ||
@@ -41,7 +48,7 @@ function renderSnippets() {
   const totalItems = entries.length;
 
   if (totalItems === 0) {
-    container.innerHTML = `<p class="text-gray-500 italic">No HTML snippets found.</p>`;
+    container.innerHTML = `<p class="text-gray-500 italic">No snippets found.</p>`;
     return;
   }
 
@@ -50,10 +57,11 @@ function renderSnippets() {
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const pagedEntries = entries.slice(startIndex, endIndex);
 
+  // Render each snippet
   pagedEntries.forEach(([title, snippet]) => {
     const code = snippet.body.join('\n');
     const card = document.createElement('div');
-    card.className = "bg-white shadow-md rounded-lg overflow-hidden border border-gray-200";
+    card.className = "bg-white shadow-md rounded-lg overflow-hidden border border-gray-200 mb-4";
     card.dataset.title = title;
 
     let prefixHtml = '';
@@ -80,46 +88,56 @@ function renderSnippets() {
     `;
 
     container.appendChild(card);
+
+    // Render tech stack grid for this snippet's prefix
+    renderSubTechGrid(snippet.prefix);
   });
 
-  // Pagination controls
-  if (totalPages > 1) {
-    const pagination = document.createElement('div');
-    pagination.className = 'flex justify-center items-center mt-6 space-x-2';
+  renderPagination(totalPages);
+  setupCopyButtons();
+}
 
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = 'Previous';
-    prevBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
-    prevBtn.disabled = currentPage === 1;
-    prevBtn.addEventListener('click', () => {
-      if (currentPage > 1) {
-        currentPage--;
-        renderSnippets();
-      }
-    });
+function renderPagination(totalPages) {
+  if (totalPages <= 1) return;
 
-    const pageInfo = document.createElement('span');
-    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-    pageInfo.className = 'text-gray-600 mx-4';
+  const container = document.getElementById('snippetsContainer');
+  const pagination = document.createElement('div');
+  pagination.className = 'flex justify-center items-center mt-6 space-x-2';
 
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = 'Next';
-    nextBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
-    nextBtn.disabled = currentPage === totalPages;
-    nextBtn.addEventListener('click', () => {
-      if (currentPage < totalPages) {
-        currentPage++;
-        renderSnippets();
-      }
-    });
+  const prevBtn = document.createElement('button');
+  prevBtn.textContent = 'Previous';
+  prevBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderSnippets();
+    }
+  });
 
-    pagination.appendChild(prevBtn);
-    pagination.appendChild(pageInfo);
-    pagination.appendChild(nextBtn);
-    container.appendChild(pagination);
-  }
+  const pageInfo = document.createElement('span');
+  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+  pageInfo.className = 'text-gray-600 mx-4';
 
-  // Copy button logic
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = 'Next';
+  nextBtn.className = 'px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 disabled:opacity-50';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderSnippets();
+    }
+  });
+
+  pagination.appendChild(prevBtn);
+  pagination.appendChild(pageInfo);
+  pagination.appendChild(nextBtn);
+  container.appendChild(pagination);
+}
+
+function setupCopyButtons() {
+  // Copy snippet
   document.querySelectorAll('.copyBtn').forEach(btn => {
     btn.addEventListener('click', () => {
       const title = btn.closest('[data-title]').dataset.title;
@@ -135,7 +153,7 @@ function renderSnippets() {
     });
   });
 
-  // Copy prefix button logic
+  // Copy prefix
   document.querySelectorAll('.copyPrefixBtn').forEach(btn => {
     btn.addEventListener('click', () => {
       const title = btn.closest('[data-title]').dataset.title;
@@ -152,6 +170,40 @@ function renderSnippets() {
       }
     });
   });
+}
+
+function renderSubTechGrid(prefix) {
+  if (!prefix) return;
+
+  const firstPart = prefix.split('-')[0].toLowerCase(); // Get first part before dash
+  const gridContainer = document.querySelector("#techGrid");
+  if (!gridContainer) return;
+
+  fetch("../data/tech-stack.json")
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to load tech-stack.json");
+      return response.json();
+    })
+    .then(data => {
+      // Find matching tech stack
+      const match = data.filter(item => item.name.toLowerCase() === firstPart);
+
+      if (match.length === 0) {
+        gridContainer.innerHTML = `<p class="text-gray-500 italic text-center">No matching tech stack found.</p>`;
+        return;
+      }
+
+      gridContainer.innerHTML = match.map(item => `
+        <a href="${item.route}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
+          <img src="${item.icon}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
+          <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
+        </a>
+      `).join("");
+    })
+    .catch(error => {
+      console.error("❌ Error:", error);
+      gridContainer.innerHTML = `<p class="text-red-500 italic text-center">Failed to load tech stack.</p>`;
+    });
 }
 
 function escapeHTML(str) {
