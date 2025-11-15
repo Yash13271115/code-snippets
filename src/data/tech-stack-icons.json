@@ -1,0 +1,30 @@
+[
+  {
+    "name": "HTML",
+    "icon": "./src/media/icons/svg/html5.svg"
+  },
+  {
+    "name": "Blade",
+    "icon": "./src/media/icons/svg/laravel.svg"
+  },
+  {
+    "name": "Python",
+    "icon": "./src/media/icons/svg/python.svg"
+  },
+  {
+    "name": "PowerShell",
+    "icon": "./src/media/icons/svg/powershell.svg"
+  },
+  {
+    "name": "Django",
+    "icon": "./src/media/icons/svg/django.svg"
+  },
+  {
+    "name": "Tailwind",
+    "icon": "./src/media/icons/svg/tailwind.svg"
+  },
+  {
+    "name": "Git",
+    "icon": "./src/media/icons/svg/git.svg"
+  }
+]

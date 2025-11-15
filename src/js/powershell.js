@@ -3,6 +3,7 @@
 // ============================
 
 let powershellSnippets = {};
+let allSnippets = {};
 const ITEMS_PER_PAGE = 10;
 let currentPage = 1;
 let currentPageTitle = '';
@@ -115,6 +116,9 @@ function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
   const searchInput = document.getElementById('searchInput');
   currentPage = 1;
   container.innerHTML = '';
+  currentPageTitle = pageTitle;
+
+  allSnippets = snippets;
 
   if (!snippets || Object.keys(snippets).length === 0) {
     container.innerHTML = `<p class="text-gray-500 italic">No PowerShell snippets found.</p>`;
@@ -135,12 +139,22 @@ function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
       )
     );
 
+    const allfiltered = Object.fromEntries(
+      Object.entries(allSnippets).filter(([key, val]) =>
+        key.toLowerCase().includes(filterValue) ||
+        (val.prefix && val.prefix.toLowerCase().includes(filterValue))
+      )
+    );
+
     powershellSnippets = filtered;
+    allSnippets = allfiltered;
   } else {
     powershellSnippets = snippets;
   }
 
   renderSnippets();
+  renderSubTechGrid();
+  renderTitle();
 
   // Search
   searchInput.addEventListener('input', e => {
@@ -155,16 +169,13 @@ function initPowerShellSnippets(snippets, pageTitle = 'Snippets') {
 
     powershellSnippets = filtered;
     currentPage = 1;
-    renderTitle();
+
     renderSnippets();
   });
 }
 
-
 function renderTitle() {
   const snippetsTitle = document.getElementById('snippetsTitle');
-
-  console.log('Rendering title:', currentPageTitle, 'with subFilter:', subFilter);
 
   // If subFilter exists and is not empty → show it
   if (subFilter && subFilter.trim() !== "") {
@@ -210,8 +221,6 @@ function renderSnippets() {
       </div>
       <pre class="bg-gray-900 text-green-300 p-4 text-sm overflow-x-auto"><code>${escapeHTML(code)}</code></pre>
     `;
-
-    renderSubTechGrid(snippet.prefix);
 
     container.appendChild(card);
   });
@@ -284,59 +293,78 @@ function renderSnippets() {
   });
 }
 
-function renderSubTechGrid(prefix) {
-  if (!prefix) return;
-
-  const firstPart = prefix.split('_')[0].toLowerCase();
+async function renderSubTechGrid() {
   const gridContainer = document.querySelector("#techGrid");
   if (!gridContainer) return;
 
+  const allEntries = Object.entries(allSnippets);
+  if (allEntries.length === 0) return;
+
+  // If subFilter already applied, do not show sub-tech grid
   if (subFilter) {
-    gridContainer.innerHTML = ``;
+    gridContainer.innerHTML = "";
     return;
   }
 
-  fetch("../data/tech-stack-subcat.json")
-    .then(response => {
-      if (!response.ok) throw new Error("Failed to load tech-stack.json");
-      return response.json();
+  // -----------------------------------------
+  // 1. COLLECT UNIQUE FIRST PARTS
+  // -----------------------------------------
+  const uniqueParts = new Set();
+
+  allEntries.forEach(([title, snippet]) => {
+    if (snippet.prefix && snippet.prefix.toLowerCase().includes("_")) {
+      const prefixPart = snippet.prefix.toLowerCase().split("_")[0];
+      uniqueParts.add(prefixPart);
+    }
+  });
+
+  // -----------------------------------------
+  // 2. LOAD JSON ONLY ONCE
+  // -----------------------------------------
+  let data = [];
+  try {
+    const response = await fetch("../data/tech-stack-icons.json");
+    if (!response.ok) throw new Error("Failed to load JSON");
+    data = await response.json();
+  } catch (error) {
+    console.error("❌ JSON Load Error:", error);
+    gridContainer.innerHTML =
+      `<p class="text-red-500 text-center">Failed to load tech stack.</p>`;
+    return;
+  }
+
+  // -----------------------------------------
+  // 3. MATCH UNIQUE PARTS WITH DATA
+  // -----------------------------------------
+  const matchedItems = data.filter(item =>
+    uniqueParts.has(item.name.toLowerCase())
+  );
+
+  if (matchedItems.length === 0) {
+    gridContainer.innerHTML = "";
+    return;
+  }
+
+  // -----------------------------------------
+  // 4. BUILD GRID HTML
+  // -----------------------------------------
+  const baseUrl = location.href.includes("code-snippets")
+    ? `${location.origin}/code-snippets`
+    : location.origin;
+
+  gridContainer.innerHTML = matchedItems
+    .map(item => {
+      const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, "")}`;
+      const itemUrl = window.location +"?" + `sub=${item.name.toLowerCase()}`;
+
+      return `
+      <a href="${itemUrl}" 
+         class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
+        <img src="${iconUrl}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
+        <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
+      </a>`;
     })
-    .then(data => {
-
-      const match = data.filter(item =>
-        item.name.toLowerCase() == firstPart
-      );
-
-      if (match.length === 0) {
-        gridContainer.innerHTML = ``;
-        return;
-      }
-
-      gridContainer.innerHTML = match
-        .map(item => {
-
-          // Detect if current location contains "code-snippets"
-          const baseUrl = location.href.includes("code-snippets")
-            ? `${location.origin}/code-snippets`
-            : location.origin;
-
-          const iconUrl = `${baseUrl}${item.icon.replace(/^\.+/, '')}`;
-          const itemUrl = `${baseUrl}${item.route.replace(/^\.+/, '')}` + `?sub=${item.name.toLowerCase()}`;
-
-          return `
-            <a href="${itemUrl}" class="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6 flex flex-col items-center text-center">
-              <img src="${iconUrl}" alt="${item.name} Logo" class="h-14 w-14 mb-4">
-              <h2 class="font-semibold text-sm text-gray-800">${item.name}</h2>
-            </a>
-          `;
-        })
-        .join("");
-    })
-    .catch(error => {
-      console.error("❌ Error:", error);
-      gridContainer.innerHTML = `
-        <p class="text-red-500 italic text-center">Failed to load tech stack.</p>`;
-    });
+    .join("");
 }
 
 function escapeHTML(str) {
