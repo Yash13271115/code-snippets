@@ -31,10 +31,18 @@
             "    <h1 class=\"text-3xl font-bold underline\">",
             "      Hello world!",
             "    </h1>",
+            "    <script src=\"https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1\" type=\"module\"></script>",
             "  </body>",
             "</html>"
         ],
         "description": "HTML5 boilerplate with TailwindCSS v4 CDN"
+    },
+    "Tailwind Element CDN": {
+        "prefix": "tailwind-element-cdn",
+        "body": [
+            "<script src=\"https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1\" type=\"module\"></script>"
+        ],
+        "description": "TailwindCSS v4 Elements CDN script tag"
     },
     "Tailwind Theme Style Block": {
         "prefix": "tailwind-theme-style-block",
