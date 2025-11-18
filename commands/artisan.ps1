@@ -11,6 +11,21 @@ function laravel_serve {
     # description "Run a Laravel Artisan command with arguments."
     php artisan serve @args 
 }
+
+function laravel_controller { 
+    # title "Laravel Artisan Command"
+    # description "Run a Laravel Artisan command with arguments."
+    param([string]$name = "MyController") 
+    php artisan make:controller $name 
+}
+
+function laravel_request { 
+    # title "Laravel Artisan Command"
+    # description "Run a Laravel Artisan command with arguments."
+    param([string]$name = "MyRequest") 
+    php artisan make:request $name 
+}
+
 function laravel_serve_port { 
     # title "Laravel Artisan Command"
     # description "Run a Laravel Artisan command with arguments."
