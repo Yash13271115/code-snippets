@@ -1,3 +1,38 @@
 {
-    "File": "css.json"
+  "File": "css.json",
+  "Tailwind Infinite Scroll Animation": {
+    "prefix": "tailwind-scroll-animation",
+    "body": [
+      "/* INFINITE SCROLL (PURE TAILWIND) */",
+      "@keyframes scroll {",
+      "  0% {",
+      "    transform: translateX(0);",
+      "  }",
+      "  100% {",
+      "    transform: translateX(-50%);",
+      "  }",
+      "}",
+      "",
+      "@utility animate-scroll {",
+      "  animation: scroll 15s linear infinite;",
+      "}"
+    ],
+    "description": "Tailwind utility + keyframes for infinite scrolling animation"
+  },
+
+  "Tailwind Floating Animation": {
+    "prefix": "tailwind-floating-animation",
+    "body": [
+      "/* FLOATING ANIMATION */",
+      "@keyframes floating {",
+      "  0%, 100% { transform: translateY(0); }",
+      "  50% { transform: translateY(-12px); }",
+      "}",
+      "",
+      "@utility animate-floating {",
+      "  animation: floating 4s ease-in-out infinite;",
+      "}"
+    ],
+    "description": "Tailwind utility + keyframes for floating up-down animation"
+  }
 }
