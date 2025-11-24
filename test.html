@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Responsive Real Estate Landing</title>
+
+  <style>
+    body {
+      background-color: #eef2f2;
+    }
+  </style>
+</head>
+
+<body class="antialiased text-gray-800">
+
+  <!-- NAVBAR -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+      <!-- Logo -->
+      <div class="text-2xl font-bold">GSDA</div>
+
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#" class="hover:text-black">Services</a>
+        <a href="#" class="hover:text-black">Mortgage</a>
+        <a href="#" class="hover:text-black">About</a>
+        <a href="#" class="hover:text-black">Blog</a>
+        <a href="#" class="hover:text-black">FAQ</a>
+        <a href="#" class="hover:text-black">Log in</a>
+        <a href="#" class="px-4 py-2 bg-black text-white rounded-md">Sign up</a>
+      </nav>
+
+      <!-- Mobile Hamburger -->
+      <button id="menuBtn" class="md:hidden text-3xl">&#9776;</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white px-6 pb-4">
+      <a class="block py-2" href="#">Services</a>
+      <a class="block py-2" href="#">Mortgage</a>
+      <a class="block py-2" href="#">About</a>
+      <a class="block py-2" href="#">Blog</a>
+      <a class="block py-2" href="#">FAQ</a>
+      <a class="block py-2" href="#">Log in</a>
+      <a class="block py-2 bg-black text-white rounded-md text-center">Sign up</a>
+    </div>
+  </header>
+
+  <script>
+    const btn = document.getElementById("menuBtn");
+    const menu = document.getElementById("mobileMenu");
+    btn.onclick = () => menu.classList.toggle("hidden");
+  </script>
+
+  <!-- HERO SECTION -->
+  <section class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+    <!-- Left Text -->
+    <div class="flex flex-col justify-center space-y-6">
+      <h1 class="text-4xl sm:text-5xl font-bold leading-tight">
+        Find real estate <br />of your dream
+      </h1>
+
+      <p class="text-gray-500 max-w-md">
+        More than 100,000 ads for the sale and rental of real estate.
+      </p>
+
+      <div class="flex gap-4 flex-wrap">
+        <a href="#" class="bg-black text-white px-6 py-3 rounded-md">
+          Get started
+        </a>
+        <a href="#" class="bg-gray-100 px-6 py-3 rounded-md">
+          More about app
+        </a>
+      </div>
+
+      <!-- Logos -->
+      <div class="flex gap-6 pt-4 opacity-60">
+        <span>HSBC</span>
+        <span>BARCLAYS</span>
+        <span>Deutsche Bank</span>
+      </div>
+    </div>
+
+    <!-- Right Phone Image -->
+    <div class="flex justify-center lg:justify-end">
+      <div class="relative w-64 sm:w-80 md:w-96">
+        <img src="/mnt/data/05e41698-2dd1-44c3-8992-934b0418dcc2.png"
+             class="rounded-3xl shadow-xl w-full" />
+      </div>
+    </div>
+
+  </section>
+
+  <!-- STATS SECTION -->
+  <section class="max-w-7xl mx-auto p-6 grid gap-6 lg:grid-cols-3">
+
+    <!-- Stats Box -->
+    <div class="bg-white rounded-xl p-8 shadow-sm lg:col-span-2">
+      <h3 class="text-xl font-semibold">All real estate ads in your city</h3>
+
+      <p class="text-gray-500 mt-2">
+        Download the app and find your dream home.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-6">
+        <div>
+          <p class="text-3xl font-bold">2,300,000</p>
+          <p class="text-xs text-gray-500">downloads</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold">2,512</p>
+          <p class="text-xs text-gray-500">advertisements</p>
+        </div>
+        <div>
+          <p class="text-3xl font-bold">1,230</p>
+          <p class="text-xs text-gray-500">realtors</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store cards -->
+    <div class="space-y-4">
+
+      <!-- iOS -->
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="font-semibold">For iOS</p>
+            <p class="text-xs text-gray-500">iOS 13.0+</p>
+          </div>
+          <button class="text-sm font-medium">Download</button>
+        </div>
+
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-xs text-gray-500">[QR]</span>
+          <span class="text-3xl"></span>
+        </div>
+      </div>
+
+      <!-- Android -->
+      <div class="bg-white rounded-xl p-5 shadow-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="font-semibold">For Android</p>
+            <p class="text-xs text-gray-500">Android 8.0+</p>
+          </div>
+          <button class="text-sm font-medium">Download</button>
+        </div>
+
+        <div class="flex justify-between items-center mt-3">
+          <span class="text-xs text-gray-500">[QR]</span>
+          <span class="text-3xl">🤖</span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer class="text-center text-sm text-gray-500 py-10">
+    © 2025 GSDA — landing demo
+  </footer>
+
+</body>
+</html>
