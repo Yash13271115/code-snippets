@@ -17,5 +17,12 @@
       "</html>"
     ],
     "description": "Basic HTML5 boilerplate"
+  },
+  "Font Awesome CDN": {
+    "prefix": "font-awesome-cdn",
+    "body": [
+      "<script src=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js\"></script>"
+    ],
+    "description": "Font Awesome v6.5.2"
   }
 }
